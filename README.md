@@ -15,7 +15,7 @@ Aplicación de gestión de estudiantes y materias desarrollada como parte de la 
 
 ## 🏛️ Arquitectura del Sistema
 
-- **Backend REST/SOAP**: Exposición de servicios de gestión.
+- **Backend SOAP**: Exposición de servicios de gestión.
 - **Frontend React**: Interfaces de usuario para registro y consultas.
 - **MySQL**: Persistencia de datos.
 - **Docker**: Contenedorización de la aplicación para fácil despliegue.
@@ -66,5 +66,4 @@ Aplicación de gestión de estudiantes y materias desarrollada como parte de la 
 - El correo electrónico del estudiante se genera automáticamente según reglas de negocio.
 - Las materias no pueden ser asignadas dos veces al mismo estudiante.
 - Se maneja la validación de integridad de datos en todas las operaciones.
-- En futuras versiones, se planea agregar autenticación y control de roles.
 

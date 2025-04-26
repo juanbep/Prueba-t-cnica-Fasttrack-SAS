@@ -10,7 +10,6 @@ Aplicación de gestión de estudiantes y materias desarrollada como parte de la 
 - Frontend: React + Vite
 - Base de Datos: MySQL
 - Contenedores: Docker
-- ORM: Hibernate / JPA
 - Servicios: SOAP (JAX-WS)
 
 ## 🏛️ Arquitectura del Sistema

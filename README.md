@@ -1,4 +1,4 @@
-# Sistema de Gestión de Estudiantes - FastTrack
+# Sistema de Gestión de Estudiantes - Solución Prueba Técnica Fasttrack
 
 ## 📚 Descripción
 

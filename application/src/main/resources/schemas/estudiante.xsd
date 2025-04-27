@@ -3,7 +3,8 @@
            targetNamespace="http://fasttrack.com/application/estudiante"
            xmlns:tns="http://fasttrack.com/application/estudiante"
            elementFormDefault="qualified">
-
+           
+<!--************************************************************************************************** -->
     <!-- Registrar Estudiante Request -->
     <xs:element name="RegistrarEstudianteRequest">
         <xs:complexType>
@@ -25,4 +26,41 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    
+<!--************************************************************************************************** -->
+    
+    <!-- Listar Estudiantes Request -->
+	<xs:element name="ListarEstudiantesRequest">
+    	<xs:complexType>
+        <!-- espacio para filtros -->
+    	</xs:complexType>
+	</xs:element>
+	
+	<!-- Objeto Estudiante -->
+	<xs:complexType name="EstudianteDTO">
+	    <xs:sequence>
+	        <xs:element name="id" type="xs:long"/>
+	        <xs:element name="primerNombre" type="xs:string"/>
+	        <xs:element name="primerApellido" type="xs:string"/>
+	        <xs:element name="pais" type="xs:string"/>
+	        <xs:element name="correo" type="xs:string"/>
+	    </xs:sequence>
+	</xs:complexType>
+	
+	<!-- Lista de Estudiantes -->
+	<xs:complexType name="listaEstudiantes">
+	    <xs:sequence>
+	        <xs:element name="estudiante" type="tns:EstudianteDTO" maxOccurs="unbounded"/>
+	    </xs:sequence>
+	</xs:complexType>
+	
+	<!-- Listar Estudiantes Response -->
+	<xs:element name="ListarEstudiantesResponse">
+	    <xs:complexType>
+	        <xs:sequence>
+	            <xs:element name="estudiantes" type="tns:listaEstudiantes"/>
+	        </xs:sequence>
+	    </xs:complexType>
+	</xs:element>
+	
 </xs:schema>

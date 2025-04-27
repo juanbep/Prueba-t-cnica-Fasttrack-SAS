@@ -2,6 +2,9 @@ package com.fasttrack.application.service;
 
 import com.fasttrack.application.model.Estudiante;
 import com.fasttrack.application.repository.EstudianteRepository;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,4 +20,9 @@ public class EstudianteService {
         // validaciones 
         estudianteRepository.save(estudiante);
     }
+	
+	public List<Estudiante> listarEstudiantes() throws Exception {
+		// validaciones 
+	    return estudianteRepository.findAll();
+	}
 }

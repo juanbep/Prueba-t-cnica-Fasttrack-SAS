@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://fasttrack.com/application/schemas"
+           xmlns:tns="http://fasttrack.com/application/schemas"
+           elementFormDefault="qualified">
+
+    <!-- Registrar Estudiante Request -->
+    <xs:element name="RegistrarEstudianteRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="primerNombre" type="xs:string"/>
+                <xs:element name="primerApellido" type="xs:string"/>
+                <xs:element name="pais" type="xs:string"/>
+                <xs:element name="correo" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Registrar Estudiante Response -->
+    <xs:element name="RegistrarEstudianteResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="exito" type="xs:boolean"/>
+				<xs:element name="mensaje" type="xs:string" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

@@ -1,42 +1,35 @@
 package com.fasttrack.application.repository;
 
-import com.fasttrack.application.model.*;
-import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
+import com.fasttrack.application.model.Estudiante;
 import org.springframework.stereotype.Repository;
-import java.util.List;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 @Repository
-@RequiredArgsConstructor
 public class EstudianteRepository {
 	
-	private final JdbcTemplate jdbcTemplate;
+	private final DataSource dataSource;
 
-    // Constructor explícito para inyectar JdbcTemplate
-    public EstudianteRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    // Constructor explícito para inyectar el dataSource
+	public EstudianteRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
-    public List<Estudiante> findAll() {
-        String sql = "SELECT * FROM estudiante";
-        return jdbcTemplate.query(sql, (rs, rowNum) -> 
-            new Estudiante(
-                rs.getLong("id_estudiante"),
-                rs.getString("primer_nombre"),
-                rs.getString("primer_apellido"),
-                rs.getString("pais"),
-                rs.getString("correo")
-            ));
-    }
-    
-    public void save(Estudiante estudiante) {
+	public void save(Estudiante estudiante) throws SQLException {
         String sql = "INSERT INTO estudiante (primer_nombre, primer_apellido, pais, correo) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-            estudiante.getPrimerNombre(),
-            estudiante.getPrimerApellido(),
-            estudiante.getPais(),
-            estudiante.getCorreo()
-        );
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, estudiante.getPrimerNombre());
+            stmt.setString(2, estudiante.getPrimerApellido());
+            stmt.setString(3, estudiante.getPais());
+            stmt.setString(4, estudiante.getCorreo());
+
+            stmt.executeUpdate();
+        }
     }
 	
 }

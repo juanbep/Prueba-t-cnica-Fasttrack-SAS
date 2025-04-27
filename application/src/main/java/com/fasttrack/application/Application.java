@@ -31,7 +31,7 @@ public class Application implements CommandLineRunner{
         estudianteRepository.save(estudiante);
 
         // Listar todos los estudiantes
-        System.out.println("Estudiantes: " + estudianteRepository.findAll());
+        // System.out.println("Estudiantes: " + estudianteRepository.findAll());
 	}
 	
 	

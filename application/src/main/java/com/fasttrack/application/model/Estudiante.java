@@ -1,7 +1,7 @@
 package com.fasttrack.application.model;
 
 
-// Revisar problema con la librería lombok
+// Revisar problema con lombok
 // import lombok.*;
 // @Data @AllArgsConstructor @NoArgsConstructor @Getter @Setter
 

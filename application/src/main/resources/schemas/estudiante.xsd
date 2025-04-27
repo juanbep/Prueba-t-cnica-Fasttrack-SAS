@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://fasttrack.com/application/schemas"
-           xmlns:tns="http://fasttrack.com/application/schemas"
+           targetNamespace="http://fasttrack.com/application/estudiante"
+           xmlns:tns="http://fasttrack.com/application/estudiante"
            elementFormDefault="qualified">
 
     <!-- Registrar Estudiante Request -->

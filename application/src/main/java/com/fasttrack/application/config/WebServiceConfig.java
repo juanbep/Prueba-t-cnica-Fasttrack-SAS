@@ -34,7 +34,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
 		wsdl11Definition.setPortTypeName("EstudiantePort");
 		wsdl11Definition.setLocationUri("/ws");
-		wsdl11Definition.setTargetNamespace("http://fasttrack.com/application/schemas");
+		wsdl11Definition.setTargetNamespace("http://fasttrack.com/application/estudiantes");
 		wsdl11Definition.setSchema(estudianteSchema);
 		return wsdl11Definition;
 	}

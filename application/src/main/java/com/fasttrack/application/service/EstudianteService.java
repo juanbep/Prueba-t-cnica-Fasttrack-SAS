@@ -17,26 +17,39 @@ public class EstudianteService {
 	}
 
 	public void registrarEstudiante(Estudiante estudiante) throws Exception {
-        // validaciones 
-        estudianteRepository.save(estudiante);
-    }
-	
-	public List<Estudiante> listarEstudiantes() throws Exception {
-		// validaciones 
-	    return estudianteRepository.findAll();
+		// validaciones
+		estudianteRepository.save(estudiante);
 	}
-	
+
+	public void actualizarEstudiante(Long id, Estudiante estudianteUpdate) throws Exception {
+		// Validar que el estudiante exista
+		if (!estudianteRepository.existsById(id)) {
+			throw new IllegalArgumentException("Estudiante no encontrado");
+		}
+
+		estudianteUpdate.setIdEstudiante(id);
+
+		if (!estudianteRepository.update(estudianteUpdate)) {
+			throw new RuntimeException("Error al actualizar en BD");
+		}
+	}
+
+	public List<Estudiante> listarEstudiantes() throws Exception {
+		// validaciones
+		return estudianteRepository.findAll();
+	}
+
 	public void eliminarEstudiante(Long id) throws Exception {
-        // Validar que el estudiante exista
-        if (!estudianteRepository.existsById(id)) {
-            throw new IllegalArgumentException("No se encontró el estudiante con ID: " + id);
-        }
-        
-        // Validar que no tenga materias asignadas
-        
-        boolean delete = estudianteRepository.deleteById(id);
-        if (!delete) {
-            throw new RuntimeException("No se pudo eliminar el estudiante con ID: " + id);
-        }
-    }
+		// Validar que el estudiante exista
+		if (!estudianteRepository.existsById(id)) {
+			throw new IllegalArgumentException("No se encontró el estudiante con ID: " + id);
+		}
+
+		// Validar que no tenga materias asignadas
+
+		boolean delete = estudianteRepository.deleteById(id);
+		if (!delete) {
+			throw new RuntimeException("No se pudo eliminar el estudiante con ID: " + id);
+		}
+	}
 }

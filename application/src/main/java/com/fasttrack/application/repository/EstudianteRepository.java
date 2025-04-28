@@ -80,6 +80,23 @@ public class EstudianteRepository {
 			}
 		}
 	}
+	
+	public int duplicateEmail(String correo) throws SQLException {
+	    String sql = "SELECT COUNT(*) FROM estudiante WHERE correo LIKE ?";
+	    
+	    try (Connection conn = dataSource.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        
+	        stmt.setString(1, correo + "%");
+	        
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            if (rs.next()) {
+	                return rs.getInt(1);
+	            }
+	        }
+	    }
+	    return 0;
+	}
 
 	public boolean update(Estudiante estudiante) throws SQLException {
 		String sql = "UPDATE estudiante SET primer_nombre = ?, primer_apellido = ?, pais = ?, correo = ? WHERE id_estudiante = ?";

@@ -63,8 +63,7 @@ public class EstudianteController {
 		estudiante.setPrimerNombre(request.getPrimerNombre());
 		estudiante.setPrimerApellido(request.getPrimerApellido());
 		estudiante.setPais(request.getPais());
-		estudiante.setCorreo(request.getCorreo());
-
+		
 		try {
 			estudianteService.registrarEstudiante(estudiante);
 			response.setExito(true);

@@ -2,6 +2,7 @@ package com.fasttrack.application.service;
 
 import com.fasttrack.application.model.Estudiante;
 import com.fasttrack.application.repository.EstudianteRepository;
+import com.fasttrack.application.utilities.CorreoGenerate;
 
 import java.util.List;
 
@@ -18,6 +19,19 @@ public class EstudianteService {
 
 	public void registrarEstudiante(Estudiante estudiante) throws Exception {
 		// validaciones
+
+		String correo = CorreoGenerate.generarCorreo(estudiante.getPrimerNombre(), estudiante.getPrimerApellido(),
+				"fasttrack.com", estudiante.getPais());
+
+		String correoAux = CorreoGenerate.generarCorreo(estudiante.getPrimerNombre(), estudiante.getPrimerApellido());
+		int countDuplicateEmail = estudianteRepository.duplicateEmail(correoAux);
+
+		if (countDuplicateEmail == 0) {
+			estudiante.setCorreo(correo);
+		} else {
+			String modifiedEmail = CorreoGenerate.generarCorreo(correo, countDuplicateEmail);
+			estudiante.setCorreo(modifiedEmail);
+		}
 		estudianteRepository.save(estudiante);
 	}
 

@@ -12,7 +12,6 @@
                 <xs:element name="primerNombre" type="xs:string"/>
                 <xs:element name="primerApellido" type="xs:string"/>
                 <xs:element name="pais" type="xs:string"/>
-                <xs:element name="correo" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

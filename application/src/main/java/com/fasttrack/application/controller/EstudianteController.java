@@ -1,8 +1,10 @@
 package com.fasttrack.application.controller;
 
 import com.fasttrack.application.model.Estudiante;
-import com.fasttrack.application.dto.schemas.EstudianteDTO;
 import com.fasttrack.application.service.EstudianteService;
+import com.fasttrack.application.dto.schemas.EstudianteDTO;
+import com.fasttrack.application.dto.schemas.EliminarEstudianteRequest;
+import com.fasttrack.application.dto.schemas.EliminarEstudianteResponse;
 import com.fasttrack.application.dto.schemas.ListaEstudiantes;
 import com.fasttrack.application.dto.schemas.ListarEstudiantesRequest;
 import com.fasttrack.application.dto.schemas.ListarEstudiantesResponse;
@@ -70,6 +72,26 @@ public class EstudianteController {
             response.setMensaje("Error al registrar el estudiante: " + e.getMessage());
         }
 
+        return response;
+    }
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "EliminarEstudianteRequest")
+    @ResponsePayload
+    public EliminarEstudianteResponse eliminarEstudiante(@RequestPayload EliminarEstudianteRequest request) {
+        EliminarEstudianteResponse response = new EliminarEstudianteResponse();
+        
+        try {
+            estudianteService.eliminarEstudiante(request.getId());
+            response.setExito(true);
+            response.setMensaje("Estudiante eliminado correctamente");
+        } catch (IllegalArgumentException e) {
+            response.setExito(false);
+            response.setMensaje(e.getMessage());
+        } catch (Exception e) {
+            response.setExito(false);
+            response.setMensaje("Error al eliminar el estudiante: " + e.getMessage());
+        }
+        
         return response;
     }
 	

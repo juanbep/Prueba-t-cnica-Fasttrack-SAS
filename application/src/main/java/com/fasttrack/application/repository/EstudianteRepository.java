@@ -19,21 +19,7 @@ public class EstudianteRepository {
 	public EstudianteRepository(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
-
-	public void save(Estudiante estudiante) throws SQLException {
-		String sql = "INSERT INTO estudiante (primer_nombre, primer_apellido, pais, correo) VALUES (?, ?, ?, ?)";
-
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-			stmt.setString(1, estudiante.getPrimerNombre());
-			stmt.setString(2, estudiante.getPrimerApellido());
-			stmt.setString(3, estudiante.getPais());
-			stmt.setString(4, estudiante.getCorreo());
-
-			stmt.executeUpdate();
-		}
-	}
-
+	
 	public List<Estudiante> findAll() throws SQLException {
 		String sql = "SELECT id_estudiante, primer_nombre, primer_apellido, pais, correo FROM estudiante";
 		List<Estudiante> estudiantes = new ArrayList<>();
@@ -54,5 +40,49 @@ public class EstudianteRepository {
 		}
 		return estudiantes;
 	}
+
+	public void save(Estudiante estudiante) throws SQLException {
+		String sql = "INSERT INTO estudiante (primer_nombre, primer_apellido, pais, correo) VALUES (?, ?, ?, ?)";
+
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setString(1, estudiante.getPrimerNombre());
+			stmt.setString(2, estudiante.getPrimerApellido());
+			stmt.setString(3, estudiante.getPais());
+			stmt.setString(4, estudiante.getCorreo());
+
+			stmt.executeUpdate();
+		}
+	}
+
+	public boolean deleteById(Long id) throws SQLException {
+        String sql = "DELETE FROM estudiante WHERE id_estudiante = ?";
+        
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setLong(1, id);
+            int rowsAffected = stmt.executeUpdate();
+            return rowsAffected > 0;
+        }
+    }
+	
+	public boolean existsById(Long id) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM estudiante WHERE id_estudiante = ?";
+        
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setLong(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+                return false;
+            }
+        }
+    }
+	
+	
 
 }

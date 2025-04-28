@@ -25,4 +25,18 @@ public class EstudianteService {
 		// validaciones 
 	    return estudianteRepository.findAll();
 	}
+	
+	public void eliminarEstudiante(Long id) throws Exception {
+        // Validar que el estudiante exista
+        if (!estudianteRepository.existsById(id)) {
+            throw new IllegalArgumentException("No se encontró el estudiante con ID: " + id);
+        }
+        
+        // Validar que no tenga materias asignadas
+        
+        boolean delete = estudianteRepository.deleteById(id);
+        if (!delete) {
+            throw new RuntimeException("No se pudo eliminar el estudiante con ID: " + id);
+        }
+    }
 }

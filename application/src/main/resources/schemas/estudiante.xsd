@@ -63,4 +63,25 @@
 	    </xs:complexType>
 	</xs:element>
 	
+<!--************************************************************************************************** -->
+
+	<!-- Eliminar Estudiante Request -->
+	<xs:element name="EliminarEstudianteRequest">
+	    <xs:complexType>
+	        <xs:sequence>
+	            <xs:element name="id" type="xs:long"/>
+	        </xs:sequence>
+	    </xs:complexType>
+	</xs:element>
+	
+	<!-- Eliminar Estudiante Response -->
+	<xs:element name="EliminarEstudianteResponse">
+	    <xs:complexType>
+	        <xs:sequence>
+	            <xs:element name="exito" type="xs:boolean"/>
+	            <xs:element name="mensaje" type="xs:string" minOccurs="0"/>
+	        </xs:sequence>
+	    </xs:complexType>
+	</xs:element>
+	
 </xs:schema>

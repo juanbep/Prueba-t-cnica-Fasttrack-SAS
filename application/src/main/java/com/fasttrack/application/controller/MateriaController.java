@@ -36,7 +36,7 @@ public class MateriaController {
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ListarMateriasRequest")
 	@ResponsePayload
-	public ListarMateriasResponse listarEstudiantes(@RequestPayload ListarMateriasRequest request) {
+	public ListarMateriasResponse listarMaterias(@RequestPayload ListarMateriasRequest request) {
 		ListarMateriasResponse response = new ListarMateriasResponse();
 		try {
 			List<Materia> estudiantesRepository = materiaService.listarMaterias();

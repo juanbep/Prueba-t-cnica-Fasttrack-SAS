@@ -1,14 +1,19 @@
 package com.fasttrack.application.controller;
 
-import java.sql.SQLException;
+import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 
+import com.fasttrack.application.dto.schemas.MateriaEstudianteDTO;
 import com.fasttrack.application.dto.schemas.AsignarMateriaRequest;
 import com.fasttrack.application.dto.schemas.AsignarMateriaResponse;
 import com.fasttrack.application.dto.schemas.DesasignarMateriaRequest;
 import com.fasttrack.application.dto.schemas.DesasignarMateriaResponse;
+import com.fasttrack.application.dto.schemas.ListaMateriasEstudiante;
+import com.fasttrack.application.dto.schemas.ListarMateriasEstudianteRequest;
+import com.fasttrack.application.dto.schemas.ListarMateriasEstudianteResponse;
+import com.fasttrack.application.model.Materia;
 import com.fasttrack.application.service.EstudianteMateriaService;
 
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -47,7 +52,7 @@ public class MateriaEstudianteController {
 
 		return response;
 	}
-	
+
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "DesasignarMateriaRequest")
 	@ResponsePayload
 	public DesasignarMateriaResponse desasignarMateria(@RequestPayload DesasignarMateriaRequest request) {
@@ -68,6 +73,26 @@ public class MateriaEstudianteController {
 		return response;
 	}
 
-	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ListarMateriasEstudianteRequest")
+	@ResponsePayload
+	public ListarMateriasEstudianteResponse listarMateriasEstudiante(@RequestPayload ListarMateriasEstudianteRequest request) {
+	    ListarMateriasEstudianteResponse response = new ListarMateriasEstudianteResponse();
+
+	    try {
+	        List<Materia> materiasEstudianteRepository = emService.listarMateriasEstudiante(request.getIdEstudiante());
+	        ListaMateriasEstudiante listaMateriasEstudiante = new ListaMateriasEstudiante();
+	        materiasEstudianteRepository.forEach(est -> {
+	        	MateriaEstudianteDTO MateriaEstudianteDTO = modelMapper.map(est, MateriaEstudianteDTO.class);
+	        	listaMateriasEstudiante.getMaterias().add(MateriaEstudianteDTO);
+	        });
+	       
+	        response.setMaterias(listaMateriasEstudiante);
+	        
+	    } catch (Exception e) {
+	    	throw new RuntimeException("Error al listar materias de estudiante: " + e.getMessage());
+	    }
+
+	    return response;
+	}
 
 }

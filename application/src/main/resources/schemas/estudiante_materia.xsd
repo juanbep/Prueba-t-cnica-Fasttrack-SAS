@@ -28,8 +28,52 @@
 	  </xs:complexType>
 	</xs:element>
 	
-	<!--************************************************************************************************** -->
+<!--************************************************************************************************** -->
+	
+	<!-- Desasignar Materia Request -->
 	
 	<xs:element name="DesasignarMateriaRequest">	  <xs:complexType>	    <xs:sequence>	      <xs:element name="idEstudiante" type="xs:long" minOccurs="1"/>	      <xs:element name="idMateria" type="xs:long" minOccurs="1"/>	    </xs:sequence>	  </xs:complexType>	</xs:element>
-	<xs:element name="DesasignarMateriaResponse">	  <xs:complexType>	    <xs:sequence>	      <xs:element name="exito" type="xs:boolean"/>	      <xs:element name="mensaje" type="xs:string" minOccurs="0"/>	    </xs:sequence>	  </xs:complexType>	</xs:element>
+
+	<!-- Desasignar Materia Response -->
+		<xs:element name="DesasignarMateriaResponse">	  <xs:complexType>	    <xs:sequence>	      <xs:element name="exito" type="xs:boolean"/>	      <xs:element name="mensaje" type="xs:string" minOccurs="0"/>	    </xs:sequence>	  </xs:complexType>	</xs:element>
+	
+<!--************************************************************************************************** -->
+
+	<!-- Listar Materias Estudiante Request -->
+	
+	<xs:element name="ListarMateriasEstudianteRequest">
+	  <xs:complexType>
+	    <xs:sequence>
+	      <xs:element name="idEstudiante" type="xs:long" minOccurs="1"/>
+	    </xs:sequence>
+	  </xs:complexType>
+	</xs:element>
+
+	<!-- Objeto MateriaEstudiante -->
+	
+    <xs:complexType name="MateriaEstudianteDTO">
+	  <xs:sequence>
+	    <xs:element name="id" type="xs:long"/>
+	    <xs:element name="nombre" type="xs:string"/>
+	    <xs:element name="codigo" type="xs:long"/>
+	  </xs:sequence>
+	</xs:complexType>
+	
+	<!-- Lista Materias Estudiante -->
+
+  	<xs:complexType name="ListaMateriasEstudiante">
+      <xs:sequence>
+      	<xs:element name="materias" type="tns:MateriaEstudianteDTO" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+  	</xs:complexType>
+	
+	<!-- Listar Materias Estudiante Response -->
+	
+	<xs:element name="ListarMateriasEstudianteResponse">
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element name="materias" type="tns:ListaMateriasEstudiante"/>
+        </xs:sequence>
+      </xs:complexType>
+	</xs:element>
 </xs:schema>     

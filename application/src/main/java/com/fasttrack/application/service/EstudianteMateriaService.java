@@ -1,12 +1,15 @@
 package com.fasttrack.application.service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.fasttrack.application.repository.EstudianteMateriaRepository;
 import com.fasttrack.application.repository.EstudianteRepository;
 import com.fasttrack.application.repository.MateriaRepository;
+
+import com.fasttrack.application.model.Materia;
 
 @Service
 public class EstudianteMateriaService {
@@ -46,6 +49,15 @@ public class EstudianteMateriaService {
 	    }
 
 	    emRepository.desasignarMateria(estudianteId, materiaId);
+	}
+	
+	public List<Materia> listarMateriasEstudiante(Long idEstudiante) throws SQLException {
+		
+	    if (!estudianteRepository.existsById(idEstudiante)) {
+	        throw new IllegalArgumentException("Estudiante no encontrado");
+	    }
+
+	    return emRepository.listarMateriasAsignadas(idEstudiante);
 	}
 
 }

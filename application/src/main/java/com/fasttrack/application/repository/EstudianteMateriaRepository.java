@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.fasttrack.application.model.Materia;
+import com.fasttrack.application.model.Estudiante;
 
 @Repository
 public class EstudianteMateriaRepository {
@@ -87,6 +88,37 @@ public class EstudianteMateriaRepository {
 		}
 
 		return materias;
+	}
+	
+	public List<Estudiante> listarEstudiantesPorMateria(long idMateria) {
+	    String query = """
+	        SELECT e.id_estudiante, e.primer_nombre, e.primer_apellido
+	        FROM estudiante e
+	        INNER JOIN estudiante_materia em ON e.id_estudiante = em.id_estudiante
+	        WHERE em.id_materia = ?
+	    """;
+
+	    List<Estudiante> estudiantes = new ArrayList<>();
+
+	    try (Connection conn = dataSource.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
+
+	        stmt.setLong(1, idMateria);
+	        ResultSet rs = stmt.executeQuery();
+
+	        while (rs.next()) {
+	            Estudiante estudiante = new Estudiante();
+	            estudiante.setId(rs.getLong("id_estudiante"));
+	            estudiante.setPrimerNombre(rs.getString("primer_nombre"));
+	            estudiante.setPrimerApellido(rs.getString("primer_apellido"));
+	            estudiantes.add(estudiante);
+	        }
+
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Error al listar estudiantes por materia", e);
+	    }
+
+	    return estudiantes;
 	}
 
 }

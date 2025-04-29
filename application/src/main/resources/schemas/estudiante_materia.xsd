@@ -75,5 +75,47 @@
           <xs:element name="materias" type="tns:ListaMateriasEstudiante"/>
         </xs:sequence>
       </xs:complexType>
-	</xs:element>
+	</xs:element>
+	
+<!--************************************************************************************************** -->
+
+	<!-- Request: Listar Estudiantes Materia Request -->
+	
+	<xs:element name="ListarEstudiantesMateriaRequest">
+	  <xs:complexType>
+	    <xs:sequence>
+	      <xs:element name="idMateria" type="xs:long" minOccurs="1"/>
+	    </xs:sequence>
+	  </xs:complexType>
+	</xs:element>
+	
+	<!-- Estudiante Materia DTO -->
+	
+	<xs:complexType name="EstudianteMateriaDTO">
+	  <xs:sequence>
+	    <xs:element name="id" type="xs:long"/>
+	    <xs:element name="primer_nombre" type="xs:string"/>
+	    <xs:element name="primer_apellido" type="xs:string"/>
+	  </xs:sequence>
+	</xs:complexType>
+	
+	<!-- Lista de estudiantes -->
+	
+	<xs:complexType name="ListaEstudiantesMateria">
+	  <xs:sequence>
+	    <xs:element name="estudiantes" type="tns:EstudianteMateriaDTO" minOccurs="0" maxOccurs="unbounded"/>
+	  </xs:sequence>
+	</xs:complexType>
+	
+	<!-- Response: ListarEstudiantesMateriaResponse -->
+	
+	<xs:element name="ListarEstudiantesMateriaResponse">
+	  <xs:complexType>
+	    <xs:sequence>
+	      <xs:element name="estudiantes" type="tns:ListaEstudiantesMateria"/>
+	    </xs:sequence>
+	  </xs:complexType>
+	</xs:element>
+	
+ 
 </xs:schema>     

@@ -10,6 +10,7 @@ import com.fasttrack.application.repository.EstudianteRepository;
 import com.fasttrack.application.repository.MateriaRepository;
 
 import com.fasttrack.application.model.Materia;
+import com.fasttrack.application.model.Estudiante;
 
 @Service
 public class EstudianteMateriaService {
@@ -58,6 +59,14 @@ public class EstudianteMateriaService {
 	    }
 
 	    return emRepository.listarMateriasAsignadas(idEstudiante);
+	}
+	
+	public List<Estudiante> listarEstudiantesPorMateria(Long idMateria) throws SQLException {
+	    if (!materiaRepository.existsById(idMateria)) {
+	        throw new IllegalArgumentException("Materia no encontrada");
+	    }
+
+	    return emRepository.listarEstudiantesPorMateria(idMateria);
 	}
 
 }

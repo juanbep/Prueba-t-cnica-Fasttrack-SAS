@@ -10,10 +10,16 @@ import com.fasttrack.application.dto.schemas.AsignarMateriaRequest;
 import com.fasttrack.application.dto.schemas.AsignarMateriaResponse;
 import com.fasttrack.application.dto.schemas.DesasignarMateriaRequest;
 import com.fasttrack.application.dto.schemas.DesasignarMateriaResponse;
+import com.fasttrack.application.dto.schemas.EstudianteMateriaDTO;
+import com.fasttrack.application.dto.schemas.ListaEstudiantesMateria;
 import com.fasttrack.application.dto.schemas.ListaMateriasEstudiante;
+import com.fasttrack.application.dto.schemas.ListarEstudiantesMateriaRequest;
+import com.fasttrack.application.dto.schemas.ListarEstudiantesMateriaResponse;
 import com.fasttrack.application.dto.schemas.ListarMateriasEstudianteRequest;
 import com.fasttrack.application.dto.schemas.ListarMateriasEstudianteResponse;
+
 import com.fasttrack.application.model.Materia;
+import com.fasttrack.application.model.Estudiante;
 import com.fasttrack.application.service.EstudianteMateriaService;
 
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -90,6 +96,29 @@ public class MateriaEstudianteController {
 	        
 	    } catch (Exception e) {
 	    	throw new RuntimeException("Error al listar materias de estudiante: " + e.getMessage());
+	    }
+
+	    return response;
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ListarEstudiantesMateriaRequest")
+	@ResponsePayload
+	public ListarEstudiantesMateriaResponse listarEstudiantesMateria(@RequestPayload ListarEstudiantesMateriaRequest request) {
+	    ListarEstudiantesMateriaResponse response = new ListarEstudiantesMateriaResponse();
+
+	    try {
+	        List<Estudiante> estudiantes = emService.listarEstudiantesPorMateria(request.getIdMateria());
+	        ListaEstudiantesMateria listaEstudiantes = new ListaEstudiantesMateria();
+
+	        estudiantes.forEach(est -> {
+	            EstudianteMateriaDTO estudianteDTO = modelMapper.map(est, EstudianteMateriaDTO.class);
+	            listaEstudiantes.getEstudiantes().add(estudianteDTO);
+	        });
+
+	        response.setEstudiantes(listaEstudiantes);
+
+	    } catch (Exception e) {
+	        throw new RuntimeException("Error al listar estudiantes por materia: " + e.getMessage(), e);
 	    }
 
 	    return response;

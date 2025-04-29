@@ -9,6 +9,8 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.fasttrack.application.dto.schemas.MateriaDTO;
+import com.fasttrack.application.dto.schemas.ActualizarMateriaRequest;
+import com.fasttrack.application.dto.schemas.ActualizarMateriaResponse;
 import com.fasttrack.application.dto.schemas.ListaMaterias;
 import com.fasttrack.application.dto.schemas.ListarMateriasRequest;
 import com.fasttrack.application.dto.schemas.ListarMateriasResponse;
@@ -19,18 +21,17 @@ import com.fasttrack.application.service.MateriaService;
 
 @Endpoint
 public class MateriaController {
-	
+
 	private static final String NAMESPACE_URI = "http://fasttrack.com/application/materia";
-	
-	
+
 	private final MateriaService materiaService;
 	private final ModelMapper modelMapper;
-	
+
 	public MateriaController(MateriaService materiaService, ModelMapper modelMapper) {
 		this.materiaService = materiaService;
 		this.modelMapper = modelMapper;
 	}
-	
+
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ListarMateriasRequest")
 	@ResponsePayload
 	public ListarMateriasResponse listarEstudiantes(@RequestPayload ListarMateriasRequest request) {
@@ -52,7 +53,6 @@ public class MateriaController {
 		return response;
 	}
 
-	
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "RegistrarMateriaRequest")
 	@ResponsePayload
 	public RegistrarMateriaResponse registrarMateria(@RequestPayload RegistrarMateriaRequest request) {
@@ -60,7 +60,7 @@ public class MateriaController {
 		Materia materia = new Materia();
 		materia.setNombre(request.getNombre());
 		materia.setCodigo(request.getCodigo());
-		
+
 		try {
 			materiaService.registrarMateria(materia);
 			response.setExito(true);
@@ -73,4 +73,28 @@ public class MateriaController {
 		return response;
 	}
 	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ActualizarMateriaRequest")
+	@ResponsePayload
+	public ActualizarMateriaResponse actualizarEstudiante(@RequestPayload ActualizarMateriaRequest request) {
+		ActualizarMateriaResponse response = new ActualizarMateriaResponse();
+		Materia materiaUpdate = new Materia();
+		materiaUpdate.setNombre(request.getNombre());
+		materiaUpdate.setCodigo(request.getCodigo());
+		
+		try {
+			materiaService.actualizarMateria(request.getId(), materiaUpdate);
+			response.setExito(true);
+			response.setMensaje("Materia actualizada exitosamente.");
+
+		} catch (IllegalArgumentException e) {
+			response.setExito(false);
+			response.setMensaje(e.getMessage());
+		} catch (Exception e) {
+			response.setExito(false);
+			response.setMensaje("Error al actualizar materia: " + e.getMessage());
+		}
+
+		return response;
+	}
+
 }

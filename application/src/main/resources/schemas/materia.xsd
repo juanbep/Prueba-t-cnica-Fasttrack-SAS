@@ -6,7 +6,7 @@
            
 <!--************************************************************************************************** -->
            
-<!-- Registrar Materia Request -->
+	<!-- Registrar Materia Request -->
     <xs:element name="RegistrarMateriaRequest">
         <xs:complexType>
             <xs:sequence>
@@ -25,6 +25,29 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    
+<!--************************************************************************************************** -->
+    
+    <!-- Actualizar Materia Request -->
+	<xs:element name="ActualizarMateriaRequest">
+    	<xs:complexType>
+        	<xs:sequence>
+	            <xs:element name="id" type="xs:long" minOccurs="1"/>
+	            <xs:element name="nombre" type="xs:string" minOccurs="1"/>
+                <xs:element name="codigo" type="xs:long" minOccurs="1"/>
+        	</xs:sequence>
+    	</xs:complexType>
+	</xs:element>
+	
+	<!-- Actualizar Materia Response -->
+	<xs:element name="ActualizarMateriaResponse">
+	    <xs:complexType>
+	        <xs:sequence>
+	            <xs:element name="exito" type="xs:boolean"/>
+	            <xs:element name="mensaje" type="xs:string" minOccurs="0"/>
+	        </xs:sequence>
+	    </xs:complexType>
+	</xs:element>
     
 <!--************************************************************************************************** -->
     

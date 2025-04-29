@@ -54,6 +54,19 @@ public class MateriaRepository {
 		}
 	}
 
+	public boolean update(Materia materia) throws SQLException {
+		String sql = "UPDATE materia SET nombre = ?, codigo = ? WHERE id_materia = ?";
+
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setString(1, materia.getNombre());
+			stmt.setLong(2, materia.getCodigo());
+			stmt.setLong(3, materia.getId());
+
+			return stmt.executeUpdate() > 0;
+		}
+	}
+
 	public boolean existsByNombre(String nombre) throws SQLException {
 		String sql = "SELECT COUNT(*) FROM materia WHERE nombre = ?";
 		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -75,6 +88,21 @@ public class MateriaRepository {
 				return rs.getInt(1) > 0;
 			}
 			return false;
+		}
+	}
+
+	public boolean existsById(Long id) throws SQLException {
+		String sql = "SELECT COUNT(*) FROM materia WHERE id_materia = ?";
+
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setLong(1, id);
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					return rs.getInt(1) > 0;
+				}
+				return false;
+			}
 		}
 	}
 }

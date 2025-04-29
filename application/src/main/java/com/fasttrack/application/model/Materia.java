@@ -4,12 +4,11 @@ public class Materia {
 	private Long id;
 	private String nombre;
 	private Long codigo;
-	
-	
+
 	// Constructor por defecto
 	public Materia() {
 	}
-	
+
 	// Constructor parametrizado
 	public Materia(Long id, String nombre, Long codigo) {
 		this.id = id;
@@ -42,10 +41,10 @@ public class Materia {
 		this.codigo = codigo;
 	}
 
-	//toString
+	// toString
 	@Override
 	public String toString() {
 		return "Materia [id=" + id + ", nombre=" + nombre + ", codigo=" + codigo + "]";
 	}
-	
+
 }

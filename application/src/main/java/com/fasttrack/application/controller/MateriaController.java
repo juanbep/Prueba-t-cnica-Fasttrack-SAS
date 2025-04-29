@@ -1,11 +1,17 @@
 package com.fasttrack.application.controller;
 
+import java.util.List;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import com.fasttrack.application.dto.schemas.MateriaDTO;
+import com.fasttrack.application.dto.schemas.ListaMaterias;
+import com.fasttrack.application.dto.schemas.ListarMateriasRequest;
+import com.fasttrack.application.dto.schemas.ListarMateriasResponse;
 import com.fasttrack.application.dto.schemas.RegistrarMateriaRequest;
 import com.fasttrack.application.dto.schemas.RegistrarMateriaResponse;
 import com.fasttrack.application.model.Materia;
@@ -23,6 +29,27 @@ public class MateriaController {
 	public MateriaController(MateriaService materiaService, ModelMapper modelMapper) {
 		this.materiaService = materiaService;
 		this.modelMapper = modelMapper;
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ListarMateriasRequest")
+	@ResponsePayload
+	public ListarMateriasResponse listarEstudiantes(@RequestPayload ListarMateriasRequest request) {
+		ListarMateriasResponse response = new ListarMateriasResponse();
+		try {
+			List<Materia> estudiantesRepository = materiaService.listarMaterias();
+			ListaMaterias listaMaterias = new ListaMaterias();
+
+			estudiantesRepository.forEach(est -> {
+				MateriaDTO materiaDTO = modelMapper.map(est, MateriaDTO.class);
+				listaMaterias.getMateria().add(materiaDTO);
+			});
+
+			response.setMaterias(listaMaterias);
+
+		} catch (Exception e) {
+			throw new RuntimeException("Error al listar materias: " + e.getMessage());
+		}
+		return response;
 	}
 
 	

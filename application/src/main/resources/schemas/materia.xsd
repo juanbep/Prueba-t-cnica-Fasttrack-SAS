@@ -25,5 +25,40 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    
+<!--************************************************************************************************** -->
+    
+    <!-- Listar Materias Request -->
+	<xs:element name="ListarMateriasRequest">
+    	<xs:complexType>
+        <!-- espacio para filtros -->
+    	</xs:complexType>
+	</xs:element>
+	
+	<!-- Objeto Materia -->
+	<xs:complexType name="MateriaDTO">
+	    <xs:sequence>
+	        <xs:element name="id" type="xs:long"/>
+	        <xs:element name="nombre" type="xs:string"/>
+	        <xs:element name="codigo" type="xs:long"/>
+	    </xs:sequence>
+	</xs:complexType>
+	
+	<!-- Lista de Materias -->
+	<xs:complexType name="listaMaterias">
+	    <xs:sequence>
+	        <xs:element name="materia" type="tns:MateriaDTO" maxOccurs="unbounded"/>
+	    </xs:sequence>
+	</xs:complexType>
+	
+	<!-- Listar Estudiantes Response -->
+	<xs:element name="ListarMateriasResponse">
+	    <xs:complexType>
+	        <xs:sequence>
+	            <xs:element name="materias" type="tns:listaMaterias"/>
+	        </xs:sequence>
+	    </xs:complexType>
+	</xs:element>
                
 </xs:schema>
+

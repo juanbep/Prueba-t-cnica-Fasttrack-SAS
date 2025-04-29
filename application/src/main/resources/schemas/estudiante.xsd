@@ -5,13 +5,24 @@
            elementFormDefault="qualified">
            
 <!--************************************************************************************************** -->
+    
+    <!-- Validaciones -->
+    <xs:simpleType name="CampoValido">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="30"/>
+            <xs:pattern value="[A-Z]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    
+<!--************************************************************************************************** -->
+    
     <!-- Registrar Estudiante Request -->
     <xs:element name="RegistrarEstudianteRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="primerNombre" type="xs:string"/>
-                <xs:element name="primerApellido" type="xs:string"/>
-                <xs:element name="pais" type="xs:string"/>
+                <xs:element name="primerNombre" type="tns:CampoValido" minOccurs="1"/>
+                <xs:element name="primerApellido" type="tns:CampoValido" minOccurs="1"/>
+                <xs:element name="pais" type="xs:string" minOccurs="1"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -25,6 +36,30 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+    
+<!--************************************************************************************************** -->
+
+	<!-- Actualizar Estudiante Request -->
+	<xs:element name="ActualizarEstudianteRequest">
+    	<xs:complexType>
+        	<xs:sequence>
+	            <xs:element name="id" type="xs:long" minOccurs="1"/>
+	            <xs:element name="primerNombre" type="tns:CampoValido" minOccurs="1"/>
+	            <xs:element name="primerApellido" type="tns:CampoValido" minOccurs="1"/>
+	            <xs:element name="pais" type="xs:string" minOccurs="1"/>
+        	</xs:sequence>
+    	</xs:complexType>
+	</xs:element>
+	
+	<!-- Actualizar Estudiante Response -->
+	<xs:element name="ActualizarEstudianteResponse">
+	    <xs:complexType>
+	        <xs:sequence>
+	            <xs:element name="exito" type="xs:boolean"/>
+	            <xs:element name="mensaje" type="xs:string" minOccurs="0"/>
+	        </xs:sequence>
+	    </xs:complexType>
+	</xs:element>
     
 <!--************************************************************************************************** -->
     
@@ -82,32 +117,7 @@
 	        </xs:sequence>
 	    </xs:complexType>
 	</xs:element>
-	
-<!--************************************************************************************************** -->
-
-	<!-- Actualizar Estudiante Request -->
-	<xs:element name="ActualizarEstudianteRequest">
-	    <xs:complexType>
-	        <xs:sequence>
-	            <xs:element name="id" type="xs:long"/>
-	            <xs:element name="primerNombre" type="xs:string"/>
-	            <xs:element name="primerApellido" type="xs:string"/>
-	            <xs:element name="pais" type="xs:string"/>
-	            <xs:element name="correo" type="xs:string"/>
-	        </xs:sequence>
-	    </xs:complexType>
-	</xs:element>
-	
-	<!-- Actualizar Estudiante Response -->
-	<xs:element name="ActualizarEstudianteResponse">
-	    <xs:complexType>
-	        <xs:sequence>
-	            <xs:element name="exito" type="xs:boolean"/>
-	            <xs:element name="mensaje" type="xs:string" minOccurs="0"/>
-	        </xs:sequence>
-	    </xs:complexType>
-	</xs:element>
-	
+		
 </xs:schema>
 
 

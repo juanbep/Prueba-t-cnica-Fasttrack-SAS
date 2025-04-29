@@ -2,6 +2,8 @@ package com.fasttrack.application.controller;
 
 import com.fasttrack.application.model.Estudiante;
 import com.fasttrack.application.service.EstudianteService;
+import com.fasttrack.application.utilities.PaisEnum;
+
 import com.fasttrack.application.dto.schemas.EstudianteDTO;
 import com.fasttrack.application.dto.schemas.ActualizarEstudianteRequest;
 import com.fasttrack.application.dto.schemas.ActualizarEstudianteResponse;
@@ -50,7 +52,7 @@ public class EstudianteController {
 			response.setEstudiantes(listaEstudiantes);
 
 		} catch (Exception e) {
-			throw new RuntimeException("Error al listar estudiantes: " + e.getMessage());
+			throw new RuntimeException("Error al listar los estudiantes: " + e.getMessage());
 		}
 		return response;
 	}
@@ -62,9 +64,10 @@ public class EstudianteController {
 		Estudiante estudiante = new Estudiante();
 		estudiante.setPrimerNombre(request.getPrimerNombre());
 		estudiante.setPrimerApellido(request.getPrimerApellido());
-		estudiante.setPais(request.getPais());
 		
 		try {
+			String codigoISO = PaisEnum.obtenerCodigoISO(request.getPais());
+	        estudiante.setPais(codigoISO);   
 			estudianteService.registrarEstudiante(estudiante);
 			response.setExito(true);
 			response.setMensaje("Estudiante registrado exitosamente.");
@@ -80,25 +83,23 @@ public class EstudianteController {
 	@ResponsePayload
 	public ActualizarEstudianteResponse actualizarEstudiante(@RequestPayload ActualizarEstudianteRequest request) {
 		ActualizarEstudianteResponse response = new ActualizarEstudianteResponse();
-
+		Estudiante estudianteUpdate = new Estudiante();
+		estudianteUpdate.setPrimerNombre(request.getPrimerNombre());
+		estudianteUpdate.setPrimerApellido(request.getPrimerApellido());
+		
 		try {
-			Estudiante estudianteUpdate = new Estudiante();
-			estudianteUpdate.setPrimerNombre(request.getPrimerNombre());
-			estudianteUpdate.setPrimerApellido(request.getPrimerApellido());
-			estudianteUpdate.setPais(request.getPais());
-			estudianteUpdate.setCorreo(request.getCorreo());
-
+			String codigoISO = PaisEnum.obtenerCodigoISO(request.getPais());
+			estudianteUpdate.setPais(codigoISO);
 			estudianteService.actualizarEstudiante(request.getId(), estudianteUpdate);
-
 			response.setExito(true);
-			response.setMensaje("Estudiante actualizado correctamente");
+			response.setMensaje("Estudiante actualizado exitosamente.");
 
 		} catch (IllegalArgumentException e) {
 			response.setExito(false);
 			response.setMensaje(e.getMessage());
 		} catch (Exception e) {
 			response.setExito(false);
-			response.setMensaje("Error al actualizar: " + e.getMessage());
+			response.setMensaje("Error al actualizar el estudiante: " + e.getMessage());
 		}
 
 		return response;
@@ -112,7 +113,7 @@ public class EstudianteController {
 		try {
 			estudianteService.eliminarEstudiante(request.getId());
 			response.setExito(true);
-			response.setMensaje("Estudiante eliminado correctamente");
+			response.setMensaje("Estudiante eliminado exitosamente.");
 		} catch (IllegalArgumentException e) {
 			response.setExito(false);
 			response.setMensaje(e.getMessage());

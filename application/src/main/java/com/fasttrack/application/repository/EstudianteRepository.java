@@ -41,7 +41,7 @@ public class EstudianteRepository {
 		return estudiantes;
 	}
 
-	public void save(Estudiante estudiante) throws SQLException {
+	public boolean save(Estudiante estudiante) throws SQLException {
 		String sql = "INSERT INTO estudiante (primer_nombre, primer_apellido, pais, correo) VALUES (?, ?, ?, ?)";
 
 		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -51,7 +51,22 @@ public class EstudianteRepository {
 			stmt.setString(3, estudiante.getPais());
 			stmt.setString(4, estudiante.getCorreo());
 
-			stmt.executeUpdate();
+			return stmt.executeUpdate() > 0;
+		}
+	}
+
+	public boolean update(Estudiante estudiante) throws SQLException {
+		String sql = "UPDATE estudiante SET primer_nombre = ?, primer_apellido = ?, pais = ?, correo = ? WHERE id_estudiante = ?";
+
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setString(1, estudiante.getPrimerNombre());
+			stmt.setString(2, estudiante.getPrimerApellido());
+			stmt.setString(3, estudiante.getPais());
+			stmt.setString(4, estudiante.getCorreo());
+			stmt.setLong(5, estudiante.getIdEstudiante());
+
+			return stmt.executeUpdate() > 0;
 		}
 	}
 
@@ -80,37 +95,20 @@ public class EstudianteRepository {
 			}
 		}
 	}
-	
-	public int duplicateEmail(String correo) throws SQLException {
-	    String sql = "SELECT COUNT(*) FROM estudiante WHERE correo LIKE ?";
-	    
-	    try (Connection conn = dataSource.getConnection();
-	         PreparedStatement stmt = conn.prepareStatement(sql)) {
-	        
-	        stmt.setString(1, correo + "%");
-	        
-	        try (ResultSet rs = stmt.executeQuery()) {
-	            if (rs.next()) {
-	                return rs.getInt(1);
-	            }
-	        }
-	    }
-	    return 0;
-	}
 
-	public boolean update(Estudiante estudiante) throws SQLException {
-		String sql = "UPDATE estudiante SET primer_nombre = ?, primer_apellido = ?, pais = ?, correo = ? WHERE id_estudiante = ?";
+	public int duplicateEmail(String correo) throws SQLException {
+		String sql = "SELECT COUNT(*) FROM estudiante WHERE correo LIKE ?";
 
 		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-			stmt.setString(1, estudiante.getPrimerNombre());
-			stmt.setString(2, estudiante.getPrimerApellido());
-			stmt.setString(3, estudiante.getPais());
-			stmt.setString(4, estudiante.getCorreo());
-			stmt.setLong(5, estudiante.getIdEstudiante());
+			stmt.setString(1, correo + "%");
 
-			return stmt.executeUpdate() > 0;
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					return rs.getInt(1);
+				}
+			}
 		}
+		return 0;
 	}
-
 }

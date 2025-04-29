@@ -4,6 +4,7 @@ import com.fasttrack.application.model.Estudiante;
 import com.fasttrack.application.repository.EstudianteRepository;
 import com.fasttrack.application.utilities.CorreoGenerate;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,28 +21,24 @@ public class EstudianteService {
 	public void registrarEstudiante(Estudiante estudiante) throws Exception {
 		// validaciones
 
-		String correo = CorreoGenerate.generarCorreo(estudiante.getPrimerNombre(), estudiante.getPrimerApellido(),
-				"fasttrack.com", estudiante.getPais());
+		estudiante.setCorreo(
+				asignarCorreo(estudiante.getPrimerNombre(), estudiante.getPrimerApellido(), estudiante.getPais()));
 
-		String correoAux = CorreoGenerate.generarCorreo(estudiante.getPrimerNombre(), estudiante.getPrimerApellido());
-		int countDuplicateEmail = estudianteRepository.duplicateEmail(correoAux);
-
-		if (countDuplicateEmail == 0) {
-			estudiante.setCorreo(correo);
-		} else {
-			String modifiedEmail = CorreoGenerate.generarCorreo(correo, countDuplicateEmail);
-			estudiante.setCorreo(modifiedEmail);
+		if (!estudianteRepository.save(estudiante)) {
+			throw new RuntimeException("Error al actualizar en BD");
 		}
-		estudianteRepository.save(estudiante);
 	}
 
 	public void actualizarEstudiante(Long id, Estudiante estudianteUpdate) throws Exception {
-		// Validar que el estudiante exista
+		// Validar si existe
 		if (!estudianteRepository.existsById(id)) {
 			throw new IllegalArgumentException("Estudiante no encontrado");
 		}
 
 		estudianteUpdate.setIdEstudiante(id);
+
+		estudianteUpdate.setCorreo(asignarCorreo(estudianteUpdate.getPrimerNombre(),
+				estudianteUpdate.getPrimerApellido(), estudianteUpdate.getPais()));
 
 		if (!estudianteRepository.update(estudianteUpdate)) {
 			throw new RuntimeException("Error al actualizar en BD");
@@ -54,16 +51,32 @@ public class EstudianteService {
 	}
 
 	public void eliminarEstudiante(Long id) throws Exception {
-		// Validar que el estudiante exista
+
 		if (!estudianteRepository.existsById(id)) {
 			throw new IllegalArgumentException("No se encontró el estudiante con ID: " + id);
 		}
 
+		// validaciones
 		// Validar que no tenga materias asignadas
 
 		boolean delete = estudianteRepository.deleteById(id);
 		if (!delete) {
 			throw new RuntimeException("No se pudo eliminar el estudiante con ID: " + id);
+		}
+	}
+
+	private String asignarCorreo(String primerNombre, String primerApellido, String pais) throws SQLException {
+
+		String correo = CorreoGenerate.generarCorreo(primerNombre, primerApellido, "fasttrack.com", pais);
+		String correoAux = CorreoGenerate.generarCorreo(primerNombre, primerApellido);
+
+		int countDuplicateEmail = estudianteRepository.duplicateEmail(correoAux);
+
+		if (countDuplicateEmail == 0) {
+			return correo;
+		} else {
+			String modifiedEmail = CorreoGenerate.generarCorreo(correo, countDuplicateEmail);
+			return modifiedEmail;
 		}
 	}
 }

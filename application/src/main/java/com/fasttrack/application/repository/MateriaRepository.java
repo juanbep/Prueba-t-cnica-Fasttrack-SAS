@@ -22,11 +22,11 @@ public class MateriaRepository {
 	}
 
 	public List<Materia> findAll() throws SQLException {
-		String sql = "SELECT id_materia, nombre, codigo FROM materia";
+		String query = "SELECT id_materia, nombre, codigo FROM materia";
 		List<Materia> materias = new ArrayList<>();
 
 		try (Connection conn = dataSource.getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql);
+				PreparedStatement stmt = conn.prepareStatement(query);
 				ResultSet rs = stmt.executeQuery()) {
 
 			while (rs.next()) {
@@ -43,9 +43,9 @@ public class MateriaRepository {
 	}
 
 	public boolean save(Materia materia) throws SQLException {
-		String sql = "INSERT INTO materia (nombre, codigo) VALUES (?, ?)";
+		String query = "INSERT INTO materia (nombre, codigo) VALUES (?, ?)";
 
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			stmt.setString(1, materia.getNombre());
 			stmt.setLong(2, materia.getCodigo());
@@ -55,9 +55,9 @@ public class MateriaRepository {
 	}
 
 	public boolean update(Materia materia) throws SQLException {
-		String sql = "UPDATE materia SET nombre = ?, codigo = ? WHERE id_materia = ?";
+		String query = "UPDATE materia SET nombre = ?, codigo = ? WHERE id_materia = ?";
 
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			stmt.setString(1, materia.getNombre());
 			stmt.setLong(2, materia.getCodigo());
@@ -68,9 +68,9 @@ public class MateriaRepository {
 	}
 
 	public boolean deleteById(Long id) throws SQLException {
-		String sql = "DELETE FROM materia WHERE id_materia = ?";
+		String query = "DELETE FROM materia WHERE id_materia = ?";
 
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			stmt.setLong(1, id);
 			int rowsAffected = stmt.executeUpdate();
@@ -79,8 +79,8 @@ public class MateriaRepository {
 	}
 
 	public boolean existsByNombre(String nombre) throws SQLException {
-		String sql = "SELECT COUNT(*) FROM materia WHERE nombre = ?";
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		String query = "SELECT COUNT(*) FROM materia WHERE nombre = ?";
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 			stmt.setString(1, nombre);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
@@ -91,8 +91,8 @@ public class MateriaRepository {
 	}
 
 	public boolean existsByCodigo(Long codigo) throws SQLException {
-		String sql = "SELECT COUNT(*) FROM materia WHERE codigo = ?";
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		String query = "SELECT COUNT(*) FROM materia WHERE codigo = ?";
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 			stmt.setLong(1, codigo);
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
@@ -103,9 +103,9 @@ public class MateriaRepository {
 	}
 
 	public boolean existsById(Long id) throws SQLException {
-		String sql = "SELECT COUNT(*) FROM materia WHERE id_materia = ?";
+		String query = "SELECT COUNT(*) FROM materia WHERE id_materia = ?";
 
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			stmt.setLong(1, id);
 			try (ResultSet rs = stmt.executeQuery()) {

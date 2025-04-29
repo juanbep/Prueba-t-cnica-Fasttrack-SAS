@@ -21,11 +21,11 @@ public class EstudianteRepository {
 	}
 
 	public List<Estudiante> findAll() throws SQLException {
-		String sql = "SELECT id_estudiante, primer_nombre, primer_apellido, pais, correo FROM estudiante";
+		String query = "SELECT id_estudiante, primer_nombre, primer_apellido, pais, correo FROM estudiante";
 		List<Estudiante> estudiantes = new ArrayList<>();
 
 		try (Connection conn = dataSource.getConnection();
-				PreparedStatement stmt = conn.prepareStatement(sql);
+				PreparedStatement stmt = conn.prepareStatement(query);
 				ResultSet rs = stmt.executeQuery()) {
 
 			while (rs.next()) {
@@ -42,9 +42,9 @@ public class EstudianteRepository {
 	}
 
 	public boolean save(Estudiante estudiante) throws SQLException {
-		String sql = "INSERT INTO estudiante (primer_nombre, primer_apellido, pais, correo) VALUES (?, ?, ?, ?)";
+		String query = "INSERT INTO estudiante (primer_nombre, primer_apellido, pais, correo) VALUES (?, ?, ?, ?)";
 
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			stmt.setString(1, estudiante.getPrimerNombre());
 			stmt.setString(2, estudiante.getPrimerApellido());
@@ -56,9 +56,9 @@ public class EstudianteRepository {
 	}
 
 	public boolean update(Estudiante estudiante) throws SQLException {
-		String sql = "UPDATE estudiante SET primer_nombre = ?, primer_apellido = ?, pais = ?, correo = ? WHERE id_estudiante = ?";
+		String query = "UPDATE estudiante SET primer_nombre = ?, primer_apellido = ?, pais = ?, correo = ? WHERE id_estudiante = ?";
 
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			stmt.setString(1, estudiante.getPrimerNombre());
 			stmt.setString(2, estudiante.getPrimerApellido());
@@ -71,9 +71,9 @@ public class EstudianteRepository {
 	}
 
 	public boolean deleteById(Long id) throws SQLException {
-		String sql = "DELETE FROM estudiante WHERE id_estudiante = ?";
+		String query = "DELETE FROM estudiante WHERE id_estudiante = ?";
 
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			stmt.setLong(1, id);
 			int rowsAffected = stmt.executeUpdate();
@@ -82,9 +82,9 @@ public class EstudianteRepository {
 	}
 
 	public boolean existsById(Long id) throws SQLException {
-		String sql = "SELECT COUNT(*) FROM estudiante WHERE id_estudiante = ?";
+		String query = "SELECT COUNT(*) FROM estudiante WHERE id_estudiante = ?";
 
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			stmt.setLong(1, id);
 			try (ResultSet rs = stmt.executeQuery()) {
@@ -97,9 +97,9 @@ public class EstudianteRepository {
 	}
 
 	public int duplicateEmail(String correo) throws SQLException {
-		String sql = "SELECT COUNT(*) FROM estudiante WHERE correo LIKE ?";
+		String query = "SELECT COUNT(*) FROM estudiante WHERE correo LIKE ?";
 
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
 
 			stmt.setString(1, correo + "%");
 

@@ -3,13 +3,13 @@ package com.fasttrack.application.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.List;
+//import java.util.List;
 
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor;
-import org.springframework.ws.server.EndpointInterceptor;
+//import org.springframework.ws.soap.server.endpoint.interceptor.PayloadValidatingInterceptor;
+//import org.springframework.ws.server.EndpointInterceptor;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
@@ -29,6 +29,11 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	@Bean
 	public XsdSchema materiaSchema() {
 	    return new SimpleXsdSchema(new ClassPathResource("schemas/materia.xsd"));
+	}
+	
+	@Bean
+	public XsdSchema emSchema() {
+	    return new SimpleXsdSchema(new ClassPathResource("schemas/estudiante_materia.xsd"));
 	}
 
 	@Bean
@@ -57,6 +62,16 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	    materia.setTargetNamespace("http://fasttrack.com/application/materia");
 	    materia.setSchema(materiaSchema);
 	    return materia;
+	}
+	
+	@Bean(name = "estudiante_materia")
+	public DefaultWsdl11Definition estudiante_materia(XsdSchema emSchema) {
+	    DefaultWsdl11Definition estudiante_materia = new DefaultWsdl11Definition();
+	    estudiante_materia.setPortTypeName("EstudianteMateriaPort");
+	    estudiante_materia.setLocationUri("/ws");
+	    estudiante_materia.setTargetNamespace("http://fasttrack.com/application/estudiante_materia");
+	    estudiante_materia.setSchema(emSchema);
+	    return estudiante_materia;
 	}
 	
 	/*

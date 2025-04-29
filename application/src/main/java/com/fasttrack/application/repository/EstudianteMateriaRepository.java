@@ -1,5 +1,39 @@
 package com.fasttrack.application.repository;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.springframework.stereotype.Repository;
+
+@Repository
 public class EstudianteMateriaRepository {
+
+	private final DataSource dataSource;
+
+	// Constructor explícito para inyectar el dataSource
+	public EstudianteMateriaRepository(DataSource dataSource) {
+		this.dataSource = dataSource;
+	}
+
+	public void asignarMateria(long idEstudiante, long idMateria) {
+		String query = "INSERT INTO estudiante_materia (id_estudiante, id_materia) VALUES (?, ?)";
+
+		try (Connection conn = dataSource.getConnection();
+				PreparedStatement insertStmt = conn.prepareStatement(query)) {
+
+			insertStmt.setLong(1, idEstudiante);
+			insertStmt.setLong(2, idMateria);
+			insertStmt.executeUpdate();
+
+		} catch (SQLException e) {
+			if (e.getSQLState().startsWith("23")) { // código de violación de integridad
+				throw new RuntimeException("La materia ya está asignada al estudiante.");
+			}
+			throw new RuntimeException("Error al asignar materia: " + e.getMessage(), e);
+		}
+	}
 
 }

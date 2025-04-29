@@ -1,0 +1,38 @@
+package com.fasttrack.application.service;
+
+import java.sql.SQLException;
+
+import org.springframework.stereotype.Service;
+
+import com.fasttrack.application.repository.EstudianteMateriaRepository;
+import com.fasttrack.application.repository.EstudianteRepository;
+import com.fasttrack.application.repository.MateriaRepository;
+
+@Service
+public class EstudianteMateriaService {
+
+	private final EstudianteMateriaRepository emRepository;
+	private final EstudianteRepository estudianteRepository;
+	private final MateriaRepository materiaRepository;
+
+	public EstudianteMateriaService(EstudianteMateriaRepository emRepository, EstudianteRepository estudianteRepository,
+			MateriaRepository materiaRepository) {
+		this.emRepository = emRepository;
+		this.estudianteRepository = estudianteRepository;
+		this.materiaRepository = materiaRepository;
+	}
+
+	public void asignarMateria(Long estudianteId, Long materiaId) throws SQLException {
+
+		if (!estudianteRepository.existsById(estudianteId)) {
+			throw new IllegalArgumentException("Estudiante no encontrado");
+		}
+
+		if (!materiaRepository.existsById(materiaId)) {
+			throw new IllegalArgumentException("Materia no encontrada");
+		}
+
+		emRepository.asignarMateria(estudianteId, materiaId);
+	}
+
+}

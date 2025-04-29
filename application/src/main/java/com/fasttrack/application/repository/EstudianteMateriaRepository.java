@@ -35,5 +35,24 @@ public class EstudianteMateriaRepository {
 			throw new RuntimeException("Error al asignar materia: " + e.getMessage(), e);
 		}
 	}
+	
+	public void desasignarMateria(long idEstudiante, long idMateria) {
+	    String query = "DELETE FROM estudiante_materia WHERE id_estudiante = ? AND id_materia = ?";
+
+	    try (Connection conn = dataSource.getConnection();
+	         PreparedStatement deleteStmt = conn.prepareStatement(query)) {
+
+	        deleteStmt.setLong(1, idEstudiante);
+	        deleteStmt.setLong(2, idMateria);
+	        int rowsAffected = deleteStmt.executeUpdate();
+
+	        if (rowsAffected == 0) {
+	            throw new RuntimeException("La materia no está asignada al estudiante.");
+	        }
+
+	    } catch (SQLException e) {
+	        throw new RuntimeException("Error al desasignar materia: " + e.getMessage(), e);
+	    }
+	}
 
 }

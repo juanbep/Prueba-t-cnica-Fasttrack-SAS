@@ -103,7 +103,7 @@
 	<xs:element name="EliminarEstudianteRequest">
 	    <xs:complexType>
 	        <xs:sequence>
-	            <xs:element name="id" type="xs:long"/>
+	            <xs:element name="id" type="xs:long" minOccurs="1"/>
 	        </xs:sequence>
 	    </xs:complexType>
 	</xs:element>

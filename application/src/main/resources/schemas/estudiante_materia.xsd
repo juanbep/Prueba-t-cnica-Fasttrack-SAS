@@ -11,8 +11,8 @@
 	<xs:element name="AsignarMateriaRequest">
 	  <xs:complexType>
 	    <xs:sequence>
-	      <xs:element name="idEstudiante" type="xs:long"/>
-	      <xs:element name="idMateria" type="xs:long"/>
+	      <xs:element name="idEstudiante" type="xs:long" minOccurs="1"/>
+	      <xs:element name="idMateria" type="xs:long" minOccurs="1"/>
 	    </xs:sequence>
 	  </xs:complexType>
 	</xs:element>      
@@ -28,4 +28,8 @@
 	  </xs:complexType>
 	</xs:element>
 	
+	<!--************************************************************************************************** -->
+	
+	<xs:element name="DesasignarMateriaRequest">	  <xs:complexType>	    <xs:sequence>	      <xs:element name="idEstudiante" type="xs:long" minOccurs="1"/>	      <xs:element name="idMateria" type="xs:long" minOccurs="1"/>	    </xs:sequence>	  </xs:complexType>	</xs:element>
+	<xs:element name="DesasignarMateriaResponse">	  <xs:complexType>	    <xs:sequence>	      <xs:element name="exito" type="xs:boolean"/>	      <xs:element name="mensaje" type="xs:string" minOccurs="0"/>	    </xs:sequence>	  </xs:complexType>	</xs:element>
 </xs:schema>     

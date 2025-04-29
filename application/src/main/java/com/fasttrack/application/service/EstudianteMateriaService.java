@@ -34,5 +34,18 @@ public class EstudianteMateriaService {
 
 		emRepository.asignarMateria(estudianteId, materiaId);
 	}
+	
+	public void desasignarMateria(Long estudianteId, Long materiaId) throws SQLException {
+	   
+		if (!estudianteRepository.existsById(estudianteId)) {
+	        throw new IllegalArgumentException("Estudiante no encontrado");
+	    }
+
+	    if (!materiaRepository.existsById(materiaId)) {
+	        throw new IllegalArgumentException("Materia no encontrada");
+	    }
+
+	    emRepository.desasignarMateria(estudianteId, materiaId);
+	}
 
 }

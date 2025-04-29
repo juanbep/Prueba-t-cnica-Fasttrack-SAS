@@ -30,7 +30,7 @@ public class EstudianteRepository {
 
 			while (rs.next()) {
 				Estudiante estudiante = new Estudiante();
-				estudiante.setIdEstudiante(rs.getLong("id_estudiante"));
+				estudiante.setId(rs.getLong("id_estudiante"));
 				estudiante.setPrimerNombre(rs.getString("primer_nombre"));
 				estudiante.setPrimerApellido(rs.getString("primer_apellido"));
 				estudiante.setPais(rs.getString("pais"));
@@ -64,7 +64,7 @@ public class EstudianteRepository {
 			stmt.setString(2, estudiante.getPrimerApellido());
 			stmt.setString(3, estudiante.getPais());
 			stmt.setString(4, estudiante.getCorreo());
-			stmt.setLong(5, estudiante.getIdEstudiante());
+			stmt.setLong(5, estudiante.getId());
 
 			return stmt.executeUpdate() > 0;
 		}

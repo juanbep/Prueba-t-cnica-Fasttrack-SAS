@@ -35,7 +35,7 @@ public class EstudianteService {
 			throw new IllegalArgumentException("Estudiante no encontrado");
 		}
 
-		estudianteUpdate.setIdEstudiante(id);
+		estudianteUpdate.setId(id);
 
 		estudianteUpdate.setCorreo(asignarCorreo(estudianteUpdate.getPrimerNombre(),
 				estudianteUpdate.getPrimerApellido(), estudianteUpdate.getPais()));

@@ -25,6 +25,11 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	public XsdSchema estudianteSchema() {
 		return new SimpleXsdSchema(new ClassPathResource("schemas/estudiante.xsd"));
 	}
+	
+	@Bean
+	public XsdSchema materiaSchema() {
+	    return new SimpleXsdSchema(new ClassPathResource("schemas/materia.xsd"));
+	}
 
 	@Bean
 	public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
@@ -35,28 +40,35 @@ public class WebServiceConfig extends WsConfigurerAdapter {
 	}
 	
 	@Bean(name = "estudiante")
-	public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema estudianteSchema) {
-		DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
-		wsdl11Definition.setPortTypeName("EstudiantePort");
-		wsdl11Definition.setLocationUri("/ws");
-		wsdl11Definition.setTargetNamespace("http://fasttrack.com/application/estudiantes");
-		wsdl11Definition.setSchema(estudianteSchema);
-		return wsdl11Definition;
+	public DefaultWsdl11Definition estudiante(XsdSchema estudianteSchema) {
+		DefaultWsdl11Definition estudiante = new DefaultWsdl11Definition();
+		estudiante.setPortTypeName("EstudiantePort");
+		estudiante.setLocationUri("/ws");
+		estudiante.setTargetNamespace("http://fasttrack.com/application/estudiante");
+		estudiante.setSchema(estudianteSchema);
+		return estudiante;
 	}
 	
-	@Bean
-    public PayloadValidatingInterceptor validatingInterceptor(){
-        PayloadValidatingInterceptor interceptor = new PayloadValidatingInterceptor();
-        interceptor.setXsdSchema(estudianteSchema());
-        interceptor.setValidateRequest(true);
-        interceptor.setValidateResponse(false);
-        interceptor.setAddValidationErrorDetail(true);
-        interceptor.setFaultStringOrReason("Campos invalidos");
-        return interceptor;
-    }
+	@Bean(name = "materia")
+	public DefaultWsdl11Definition materia(XsdSchema materiaSchema) {
+	    DefaultWsdl11Definition materia = new DefaultWsdl11Definition();
+	    materia.setPortTypeName("MateriaPort");
+	    materia.setLocationUri("/ws");
+	    materia.setTargetNamespace("http://fasttrack.com/application/materia");
+	    materia.setSchema(materiaSchema);
+	    return materia;
+	}
 	
-	 @Override
-	    public void addInterceptors(List<EndpointInterceptor> interceptors) {
-	        interceptors.add(validatingInterceptor());
-	    }
+	/*
+	 * @Bean public PayloadValidatingInterceptor validatingInterceptor(){
+	 * PayloadValidatingInterceptor interceptor = new
+	 * PayloadValidatingInterceptor(); interceptor.setXsdSchema(estudianteSchema());
+	 * interceptor.setValidateRequest(true); interceptor.setValidateResponse(false);
+	 * interceptor.setAddValidationErrorDetail(true);
+	 * interceptor.setFaultStringOrReason("Campos invalidos"); return interceptor; }
+	 * 
+	 * @Override public void addInterceptors(List<EndpointInterceptor> interceptors)
+	 * { interceptors.add(validatingInterceptor()); }
+	 */
+	
 }

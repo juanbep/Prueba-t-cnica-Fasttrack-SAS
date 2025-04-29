@@ -16,37 +16,38 @@ public class Estudiante {
 	}
 
 	// Constructor parametrizado
-	public Estudiante(Long id_estudiante, String primer_nombre, String primer_apellido, String pais, String correo) {
-		this.id = id_estudiante;
-		this.primerNombre = primer_nombre;
-		this.primerApellido = primer_apellido;
+	public Estudiante(Long id, String primerNombre, String primerApellido, String pais, String correo) {
+		this.id = id;
+		this.primerNombre = primerNombre;
+		this.primerApellido = primerApellido;
 		this.pais = pais;
 		this.correo = correo;
 	}
 
 	// Getters y Setters
-	public Long getIdEstudiante() {
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setIdEstudiante(Long id_estudiante) {
-		this.id = id_estudiante;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getPrimerNombre() {
 		return primerNombre;
 	}
 
-	public void setPrimerNombre(String primer_nombre) {
-		this.primerNombre = primer_nombre;
+	public void setPrimerNombre(String primerNombre) {
+		this.primerNombre = primerNombre;
 	}
 
 	public String getPrimerApellido() {
 		return primerApellido;
 	}
 
-	public void setPrimerApellido(String primer_apellido) {
-		this.primerApellido = primer_apellido;
+	public void setPrimerApellido(String primerApellido) {
+		this.primerApellido = primerApellido;
 	}
 
 	public String getPais() {
@@ -65,9 +66,11 @@ public class Estudiante {
 		this.correo = correo;
 	}
 
+	//toString
 	@Override
 	public String toString() {
-		return "Estudiante{" + "id estudiante=" + id + ", primer nombre='" + primerNombre + '\'' + ", primer apellido='"
-				+ primerApellido + '\'' + ", pais='" + pais + '\'' + ", correo='" + correo + '\'' + '}';
+		return "Estudiante [id=" + id + ", primerNombre=" + primerNombre + ", primerApellido=" + primerApellido
+				+ ", pais=" + pais + ", correo=" + correo + "]";
 	}
+	
 }

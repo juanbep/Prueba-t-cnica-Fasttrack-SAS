@@ -57,4 +57,19 @@ public class MateriaService {
 		return materiaRepository.findAll();
 	}
 
+	public void eliminarMateria(Long id) throws Exception {
+
+		if (!materiaRepository.existsById(id)) {
+			throw new IllegalArgumentException("No se encontró la materia con ID: " + id);
+		}
+
+		// validaciones
+		// Validar que no tenga materias asignadas
+
+		boolean delete = materiaRepository.deleteById(id);
+		if (!delete) {
+			throw new RuntimeException("No se pudo eliminar la materia con ID: " + id);
+		}
+	}
+
 }

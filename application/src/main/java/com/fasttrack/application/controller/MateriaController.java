@@ -11,6 +11,8 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import com.fasttrack.application.dto.schemas.MateriaDTO;
 import com.fasttrack.application.dto.schemas.ActualizarMateriaRequest;
 import com.fasttrack.application.dto.schemas.ActualizarMateriaResponse;
+import com.fasttrack.application.dto.schemas.EliminarMateriaRequest;
+import com.fasttrack.application.dto.schemas.EliminarMateriaResponse;
 import com.fasttrack.application.dto.schemas.ListaMaterias;
 import com.fasttrack.application.dto.schemas.ListarMateriasRequest;
 import com.fasttrack.application.dto.schemas.ListarMateriasResponse;
@@ -72,7 +74,7 @@ public class MateriaController {
 
 		return response;
 	}
-	
+
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ActualizarMateriaRequest")
 	@ResponsePayload
 	public ActualizarMateriaResponse actualizarEstudiante(@RequestPayload ActualizarMateriaRequest request) {
@@ -80,7 +82,7 @@ public class MateriaController {
 		Materia materiaUpdate = new Materia();
 		materiaUpdate.setNombre(request.getNombre());
 		materiaUpdate.setCodigo(request.getCodigo());
-		
+
 		try {
 			materiaService.actualizarMateria(request.getId(), materiaUpdate);
 			response.setExito(true);
@@ -92,6 +94,26 @@ public class MateriaController {
 		} catch (Exception e) {
 			response.setExito(false);
 			response.setMensaje("Error al actualizar materia: " + e.getMessage());
+		}
+
+		return response;
+	}
+
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "EliminarMateriaRequest")
+	@ResponsePayload
+	public EliminarMateriaResponse eliminarMateria(@RequestPayload EliminarMateriaRequest request) {
+		EliminarMateriaResponse response = new EliminarMateriaResponse();
+
+		try {
+			materiaService.eliminarMateria(request.getId());
+			response.setExito(true);
+			response.setMensaje("Materia eliminada exitosamente.");
+		} catch (IllegalArgumentException e) {
+			response.setExito(false);
+			response.setMensaje(e.getMessage());
+		} catch (Exception e) {
+			response.setExito(false);
+			response.setMensaje("Error al eliminar materia: " + e.getMessage());
 		}
 
 		return response;

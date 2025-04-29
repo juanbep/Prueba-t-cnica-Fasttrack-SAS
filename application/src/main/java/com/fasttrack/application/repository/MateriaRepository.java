@@ -67,6 +67,17 @@ public class MateriaRepository {
 		}
 	}
 
+	public boolean deleteById(Long id) throws SQLException {
+		String sql = "DELETE FROM materia WHERE id_materia = ?";
+
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+			stmt.setLong(1, id);
+			int rowsAffected = stmt.executeUpdate();
+			return rowsAffected > 0;
+		}
+	}
+
 	public boolean existsByNombre(String nombre) throws SQLException {
 		String sql = "SELECT COUNT(*) FROM materia WHERE nombre = ?";
 		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {

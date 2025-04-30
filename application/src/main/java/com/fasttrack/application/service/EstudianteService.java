@@ -1,13 +1,13 @@
 package com.fasttrack.application.service;
 
-import com.fasttrack.application.model.Estudiante;
-import com.fasttrack.application.repository.EstudianteRepository;
-import com.fasttrack.application.utilities.CorreoGenerate;
-
 import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import com.fasttrack.application.model.Estudiante;
+import com.fasttrack.application.repository.EstudianteRepository;
+import com.fasttrack.application.utilities.CorreoGenerate;
 
 @Service
 public class EstudianteService {

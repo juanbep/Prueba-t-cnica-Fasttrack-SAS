@@ -8,7 +8,6 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import com.fasttrack.application.dto.schemas.MateriaDTO;
 import com.fasttrack.application.dto.schemas.ActualizarMateriaRequest;
 import com.fasttrack.application.dto.schemas.ActualizarMateriaResponse;
 import com.fasttrack.application.dto.schemas.EliminarMateriaRequest;
@@ -16,6 +15,7 @@ import com.fasttrack.application.dto.schemas.EliminarMateriaResponse;
 import com.fasttrack.application.dto.schemas.ListaMaterias;
 import com.fasttrack.application.dto.schemas.ListarMateriasRequest;
 import com.fasttrack.application.dto.schemas.ListarMateriasResponse;
+import com.fasttrack.application.dto.schemas.MateriaDTO;
 import com.fasttrack.application.dto.schemas.RegistrarMateriaRequest;
 import com.fasttrack.application.dto.schemas.RegistrarMateriaResponse;
 import com.fasttrack.application.model.Materia;

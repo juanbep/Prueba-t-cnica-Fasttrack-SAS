@@ -5,12 +5,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.fasttrack.application.model.Estudiante;
+import com.fasttrack.application.model.Materia;
 import com.fasttrack.application.repository.EstudianteMateriaRepository;
 import com.fasttrack.application.repository.EstudianteRepository;
 import com.fasttrack.application.repository.MateriaRepository;
-
-import com.fasttrack.application.model.Materia;
-import com.fasttrack.application.model.Estudiante;
 
 @Service
 public class EstudianteMateriaService {

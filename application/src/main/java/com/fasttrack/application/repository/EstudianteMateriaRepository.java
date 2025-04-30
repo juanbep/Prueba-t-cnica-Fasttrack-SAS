@@ -1,6 +1,5 @@
 package com.fasttrack.application.repository;
 
-import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,10 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.springframework.stereotype.Repository;
 
-import com.fasttrack.application.model.Materia;
 import com.fasttrack.application.model.Estudiante;
+import com.fasttrack.application.model.Materia;
 
 @Repository
 public class EstudianteMateriaRepository {

@@ -9,8 +9,9 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.fasttrack.application.model.Materia;
 import org.springframework.stereotype.Repository;
+
+import com.fasttrack.application.model.Materia;
 
 @Repository
 public class MateriaRepository {

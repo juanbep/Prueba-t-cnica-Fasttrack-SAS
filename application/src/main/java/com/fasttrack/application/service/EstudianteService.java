@@ -38,7 +38,7 @@ public class EstudianteService {
 		estudianteUpdate.setId(id);
 
 		estudianteUpdate.setCorreo(asignarCorreo(estudianteUpdate.getPrimerNombre(),
-				estudianteUpdate.getPrimerApellido(), estudianteUpdate.getPais()));
+				estudianteUpdate.getPrimerApellido(),estudianteUpdate.getPais()));
 
 		if (!estudianteRepository.update(estudianteUpdate)) {
 			throw new RuntimeException("Error al actualizar en BD");

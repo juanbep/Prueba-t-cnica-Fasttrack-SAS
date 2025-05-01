@@ -14,6 +14,7 @@ export const SoapRequest = async (soapBody) => {
         "Content-Type": "text/xml;charset=UTF-8",
       },
       responseType: "text",
+      validateStatus: () => true,
     });
 
     const parser = new DOMParser();

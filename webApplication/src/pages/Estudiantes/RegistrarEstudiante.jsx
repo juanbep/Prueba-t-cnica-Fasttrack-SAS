@@ -3,7 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 import { registrarEstudiante } from "../../services/soap/estudiantes/RegistrarEstudiante";
 
-const RegistrarEstudiante = ({ visible, onClose }) => {
+const RegistrarEstudiante = ({ visible, onClose, onSuccess  }) => {
   const [formData, setFormData] = useState({
     primerNombre: "",
     primerApellido: "",
@@ -80,6 +80,7 @@ const RegistrarEstudiante = ({ visible, onClose }) => {
     if (exito) {
       console.log("Estudiante registrado:", mensaje);
       alert(mensaje);
+      onSuccess(); //callback
       onClose();
     } else {
       setError(mensaje || "Error al registrar estudiante");

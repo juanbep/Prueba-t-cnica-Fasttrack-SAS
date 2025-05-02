@@ -3,7 +3,7 @@ import { IoMdClose } from "react-icons/io";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 import { actualizarEstudiante } from "../../services/soap/estudiantes/ActualizarEstudiante";
 
-const ActualizarEstudiante = ({ visible, onClose, datosParaActualizar }) => {
+const ActualizarEstudiante = ({ visible, onClose, datosParaActualizar, onSuccess }) => {
   const [formData, setFormData] = useState({
     id: "",
     primerNombre: "",
@@ -80,8 +80,9 @@ const ActualizarEstudiante = ({ visible, onClose, datosParaActualizar }) => {
     const { exito, mensaje } = await actualizarEstudiante(formData);
 
     if (exito) {
-      console.log("Estudiante registrado:", mensaje);
+      console.log("Estudiante actualizado:", mensaje);
       alert(mensaje);
+      onSuccess();
       onClose();
     } else {
       setError(mensaje || "Error al actualizar estudiante");

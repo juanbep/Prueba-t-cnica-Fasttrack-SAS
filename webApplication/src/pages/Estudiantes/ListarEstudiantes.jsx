@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { listarEstudiantes } from "../../services/soap/estudiantes/listarEstudiantes";
+import { eliminarEstudiante } from "../../services/soap/estudiantes/EliminarEstudiante";
 import RegistrarEstudiante from "./RegistrarEstudiante";
 import ActualizarEstudiante from "./ActualizarEstudiante";
 import MateriasEstudiante from "./MateriasEstudiante";
@@ -30,6 +31,19 @@ const ListarEstudiantes = () => {
     cargarDatos();
   }, []);
 
+  //callback para cuando se agerga un estudiante
+  const actualizarLista = async () => {
+    setLoading(true);
+    try {
+      const data = await listarEstudiantes();
+      setEstudiantes(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const handleClickFuera = (e) => {
       const fueraDeTabla =
@@ -52,11 +66,26 @@ const ListarEstudiantes = () => {
     );
   };
 
-  const handleEliminar = () => {
+  const handleEliminar = async () => {
     if (!estudianteSeleccionado) return;
     const id = estudianteSeleccionado.id;
     console.log("Eliminar estudiante con ID:", id);
-    // lógica para eliminar
+    // petición soap
+    try {
+      const response = await eliminarEstudiante(id);
+
+      if (response.exito === "true") {
+        // actualizar la tabla
+        setEstudiantes((prev) => prev.filter((m) => m.id !== id));
+        setEstudianteSeleccionado(null);
+      } else {
+        // mostrar mensaje al usuario
+        alert(`No se pudo eliminar el estudiante: ${response.mensaje}`);
+      }
+    } catch (error) {
+      console.error("Error al eliminar:", error);
+      alert("Ocurrió un error al eliminar el estudiante.");
+    }
   };
 
   const handleActualizar = () => {
@@ -120,6 +149,7 @@ const ListarEstudiantes = () => {
           <RegistrarEstudiante
             visible={modalRVisible}
             onClose={() => setModalRVisible(false)}
+            onSuccess={actualizarLista}
           />
           <div className="flex gap-2" ref={botonesRef}>
             <button
@@ -137,6 +167,7 @@ const ListarEstudiantes = () => {
               visible={modalAVisible}
               onClose={() => setModalAVisible(false)}
               datosParaActualizar={datosEstudiante}
+              onSuccess={actualizarLista}
             />
             <button
               className={`px-4 py-2 rounded-md shadow transition duration-200 ${

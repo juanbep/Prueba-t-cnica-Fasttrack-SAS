@@ -87,7 +87,7 @@ public class MateriaEstudianteController {
 	        ListaMateriasEstudiante listaMateriasEstudiante = new ListaMateriasEstudiante();
 	        materiasEstudianteRepository.forEach(est -> {
 	        	MateriaEstudianteDTO MateriaEstudianteDTO = modelMapper.map(est, MateriaEstudianteDTO.class);
-	        	listaMateriasEstudiante.getMaterias().add(MateriaEstudianteDTO);
+	        	listaMateriasEstudiante.getMateria().add(MateriaEstudianteDTO);
 	        });
 	       
 	        response.setMaterias(listaMateriasEstudiante);

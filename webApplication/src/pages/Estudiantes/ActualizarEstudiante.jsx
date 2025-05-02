@@ -18,6 +18,7 @@ const ActualizarEstudiante = ({ visible, onClose, datosParaActualizar }) => {
 
   useEffect(() => {
     if (visible && datosParaActualizar) {
+      console.log(datosParaActualizar)
       setFormData({
         id: datosParaActualizar.id || "",
         primerNombre: datosParaActualizar.primerNombre || "",

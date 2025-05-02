@@ -2,15 +2,17 @@ import { useEffect, useRef, useState } from "react";
 import { listarEstudiantes } from "../../services/soap/estudiantes/listarEstudiantes";
 import RegistrarEstudiante from "./RegistrarEstudiante";
 import ActualizarEstudiante from "./ActualizarEstudiante";
+import MateriasEstudiante from "./MateriasEstudiante";
 
 const ListarEstudiantes = () => {
   const [estudiantes, setEstudiantes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [estudianteSeleccionado, setEstudianteSeleccionado] = useState(null);
-  const [datosParaActualizar, setDatosParaActualizar] = useState(null);
+  const [datosEstudiante, setDatosEstudiante] = useState(null);
   const [modalRVisible, setModalRVisible] = useState(false);
   const [modalAVisible, setModalAVisible] = useState(false);
+  const [modalMEVisible, setModalMEVisible] = useState(false);
   const tablaRef = useRef(null);
   const botonesRef = useRef(null);
 
@@ -62,8 +64,17 @@ const ListarEstudiantes = () => {
     // eslint-disable-next-line no-unused-vars
     const { correo, ...datosEstudiante } = estudianteSeleccionado;
     //console.log("Actualizar estudiante con datos:", datosParaActualizar);
-    setDatosParaActualizar(datosEstudiante);
+    setDatosEstudiante(datosEstudiante);
     setModalAVisible(true);
+  };
+
+  const handleMateriasEstudiante = () => {
+    if (!estudianteSeleccionado) return;
+    // eslint-disable-next-line no-unused-vars
+    const { correo, ...datosEstudiante } = estudianteSeleccionado;
+    //console.log("Actualizar estudiante con datos:", datosParaActualizar);
+    setDatosEstudiante(datosEstudiante);
+    setModalMEVisible(true);
   };
 
   if (loading)
@@ -125,7 +136,7 @@ const ListarEstudiantes = () => {
             <ActualizarEstudiante
               visible={modalAVisible}
               onClose={() => setModalAVisible(false)}
-              datosParaActualizar={datosParaActualizar}
+              datosParaActualizar={datosEstudiante}
             />
             <button
               className={`px-4 py-2 rounded-md shadow transition duration-200 ${
@@ -138,6 +149,22 @@ const ListarEstudiantes = () => {
             >
               Eliminar
             </button>
+            <button
+              className={`px-4 py-2 rounded-md shadow transition duration-200 ${
+                estudianteSeleccionado
+                  ? "bg-gray-700 text-white hover:bg-gray-900 cursor-pointer"
+                  : "bg-gray-500 text-white cursor-not-allowed"
+              }`}
+              disabled={!estudianteSeleccionado}
+              onClick={handleMateriasEstudiante}
+            >
+              Materias asignadas
+            </button>
+            <MateriasEstudiante
+              visible={modalMEVisible}
+              onClose={() => setModalMEVisible(false)}
+              datosEstudiante={datosEstudiante}
+            />
           </div>
         </div>
       </div>

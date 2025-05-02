@@ -65,7 +65,9 @@ public class EstudianteController {
 		estudiante.setPrimerApellido(request.getPrimerApellido());
 		
 		try {
+			//System.out.println("pais: "+request.getPais());
 			String codigoISO = PaisEnum.obtenerCodigoISO(request.getPais());
+			//System.out.println("codigo ISO"+codigoISO);
 	        estudiante.setPais(codigoISO);   
 			estudianteService.registrarEstudiante(estudiante);
 			response.setExito(true);

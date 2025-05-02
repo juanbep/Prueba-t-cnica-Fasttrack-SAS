@@ -197,6 +197,17 @@ const ListarEstudiantes = () => {
               onClose={() => setModalMEVisible(false)}
               datosEstudiante={datosEstudiante}
             />
+            <button
+              className={`px-4 py-2 rounded-md shadow transition duration-200 ${
+                estudianteSeleccionado
+                  ? "bg-gray-700 text-white hover:bg-gray-900 cursor-pointer"
+                  : "bg-gray-500 text-white cursor-not-allowed"
+              }`}
+              disabled={!estudianteSeleccionado}
+              onClick={handleMateriasEstudiante}
+            >
+              Asignar materia
+            </button>
           </div>
         </div>
       </div>

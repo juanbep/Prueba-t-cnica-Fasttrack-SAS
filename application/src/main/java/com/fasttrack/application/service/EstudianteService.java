@@ -21,6 +21,7 @@ public class EstudianteService {
 	public void registrarEstudiante(Estudiante estudiante) throws Exception {
 		// validaciones
 
+		//System.out.println(estudiante.getPais());
 		estudiante.setCorreo(
 				asignarCorreo(estudiante.getPrimerNombre(), estudiante.getPrimerApellido(), estudiante.getPais()));
 

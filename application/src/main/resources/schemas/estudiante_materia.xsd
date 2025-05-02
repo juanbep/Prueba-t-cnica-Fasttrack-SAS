@@ -103,7 +103,7 @@
 	
 	<xs:complexType name="ListaEstudiantesMateria">
 	  <xs:sequence>
-	    <xs:element name="estudiantes" type="tns:EstudianteMateriaDTO" minOccurs="0" maxOccurs="unbounded"/>
+	    <xs:element name="estudiante" type="tns:EstudianteMateriaDTO" minOccurs="0" maxOccurs="unbounded"/>
 	  </xs:sequence>
 	</xs:complexType>
 	

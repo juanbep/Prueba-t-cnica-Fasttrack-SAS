@@ -110,7 +110,7 @@ public class MateriaEstudianteController {
 
 	        estudiantes.forEach(est -> {
 	            EstudianteMateriaDTO estudianteDTO = modelMapper.map(est, EstudianteMateriaDTO.class);
-	            listaEstudiantes.getEstudiantes().add(estudianteDTO);
+	            listaEstudiantes.getEstudiante().add(estudianteDTO);
 	        });
 
 	        response.setEstudiantes(listaEstudiantes);

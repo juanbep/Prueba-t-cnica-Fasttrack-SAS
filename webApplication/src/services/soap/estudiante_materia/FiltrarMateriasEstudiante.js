@@ -1,7 +1,7 @@
 import { SoapRequest } from "./EstudianteMateriaClient";
 
 /**
- * Parsea la respuesta XML del servicio RegistrarEstudiante.
+ * Parsea la respuesta XML del servicio.
  */
 const parseObjMateria = (node) => ({
   id: node.getElementsByTagName("ns2:id")[0].textContent,
@@ -10,8 +10,6 @@ const parseObjMateria = (node) => ({
 });
 
 /**
- * Registra un nuevo estudiante.
- * @param {Object} estudiante - Datos del estudiante { id, primerNombre, primerApellido, pais }
  * @returns {Promise<{exito: boolean, mensaje: string}>}
  */
 export const listarMaterias = async (idEstudiante) => {

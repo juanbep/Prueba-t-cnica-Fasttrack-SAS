@@ -3,7 +3,7 @@ import { listarMaterias } from "../../services/soap/materias/listarMaterias";
 import { eliminarMateria } from "../../services/soap/materias/EliminarMateria";
 import RegistrarMateria from "./RegistrarMateria";
 import ActualizarMateria from "./ActualizarMateria";
-//import MateriasEstudiante from "./MateriasEstudiante";
+import EstudiantesMateria from "./EstudiantesMateria";
 
 const ListarMaterias = () => {
   const [materias, setMaterias] = useState([]);
@@ -13,7 +13,7 @@ const ListarMaterias = () => {
   const [datosMateria, setDatosMateria] = useState(null);
   const [modalRVisible, setModalRVisible] = useState(false);
   const [modalAVisible, setModalAVisible] = useState(false);
-  //const [modalMEVisible, setModalMEVisible] = useState(false);
+  const [modalEMVisible, setModalEMVisible] = useState(false);
   const tablaRef = useRef(null);
   const botonesRef = useRef(null);
 
@@ -31,7 +31,7 @@ const ListarMaterias = () => {
     cargarDatos();
   }, []);
 
-  //callback para cuando se agerga una materia
+  // callback para cuando se agerga una materia
   const actualizarLista = async () => {
     setLoading(true);
     try {
@@ -93,12 +93,19 @@ const ListarMaterias = () => {
     if (!materiaSeleccionada) return;
 
     const { ...datosMateria } = materiaSeleccionada;
-    console.log("Actualizar Materia con datos:", datosMateria);
+    // console.log("Actualizar Materia con datos:", datosMateria);
     setDatosMateria(datosMateria);
     setModalAVisible(true);
   };
 
-  const handleMateriasEstudiante = () => {};
+  const handleEstudiantesMateria = () => {
+    if (!materiaSeleccionada) return;
+    const { ...datosMateria } = materiaSeleccionada;
+    // console.log("Actualizar materia con datos:", datosMateria);
+    setDatosMateria(datosMateria);
+    // console.log("handleEstudiantesMateria -> Actualizar materia con datos:", datosMateria);
+    setModalEMVisible(true);
+  };
 
   if (loading)
     return (
@@ -181,10 +188,15 @@ const ListarMaterias = () => {
                   : "bg-gray-500 text-white cursor-not-allowed"
               }`}
               disabled={!materiaSeleccionada}
-              onClick={handleMateriasEstudiante}
+              onClick={handleEstudiantesMateria}
             >
               Estudiantes asignados
             </button>
+            <EstudiantesMateria
+              visible={modalEMVisible}
+              onClose={() => setModalEMVisible(false)}
+              datosMateria={datosMateria}
+            />
           </div>
         </div>
       </div>

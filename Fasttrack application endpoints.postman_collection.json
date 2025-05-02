@@ -1,0 +1,450 @@
+{
+	"info": {
+		"_postman_id": "2e5cbf33-d469-4515-bad0-e23e06ba15be",
+		"name": "Fasttrack application endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17610129",
+		"_collection_link": "https://teambeca98.postman.co/workspace/fasttrack~9dcc25bc-f908-4738-944c-3eb19e867d9e/collection/17610129-2e5cbf33-d469-4515-bad0-e23e06ba15be?action=share&source=collection_link&creator=17610129"
+	},
+	"item": [
+		{
+			"name": "Estudiante",
+			"item": [
+				{
+					"name": "RegistrarEstudiante",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:app=\"http://fasttrack.com/application/estudiante\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:RegistrarEstudianteRequest>\r\n         <app:primerNombre>JUAN</app:primerNombre>\r\n         <app:primerApellido>BECA</app:primerApellido>\r\n         <app:pais>Colombia</app:pais>\r\n      </app:RegistrarEstudianteRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListarEstudiantes",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:app=\"http://fasttrack.com/application/estudiante\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:ListarEstudiantesRequest/>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarEstudiante",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:app=\"http://fasttrack.com/application/estudiante\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:EliminarEstudianteRequest>\r\n         <app:id>1</app:id>\r\n      </app:EliminarEstudianteRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarEstudiante",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:app=\"http://fasttrack.com/application/estudiante\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:ActualizarEstudianteRequest>\r\n         <app:id>40</app:id>\r\n         <app:primerNombre>HERMINIA</app:primerNombre>\r\n         <app:primerApellido>PILLIMUE</app:primerApellido>\r\n         <app:pais>Brasil</app:pais>\r\n      </app:ActualizarEstudianteRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Materia",
+			"item": [
+				{
+					"name": "RegistratMateria",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" \r\nxmlns:app=\"http://fasttrack.com/application/materia\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:RegistrarMateriaRequest>\r\n         <app:nombre>sociales</app:nombre>\r\n         <app:codigo>405</app:codigo>\r\n      </app:RegistrarMateriaRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListarMaterias",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:app=\"http://fasttrack.com/application/materia\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:ListarMateriasRequest/>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ActualizarMateria",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:app=\"http://fasttrack.com/application/materia\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:ActualizarMateriaRequest>\r\n         <app:id>4</app:id>\r\n         <app:nombre>Sociales</app:nombre>\r\n         <app:codigo>302</app:codigo>\r\n      </app:ActualizarMateriaRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws?Content-Type=text/xml",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							],
+							"query": [
+								{
+									"key": "Content-Type",
+									"value": "text/xml"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EliminarMateria",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:app=\"http://fasttrack.com/application/materia\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:EliminarMateriaRequest>\r\n         <app:id>2</app:id>\r\n      </app:EliminarMateriaRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "html"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "EstudianteMateria",
+			"item": [
+				{
+					"name": "AsignarMateria",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" \r\nxmlns:app=\"http://fasttrack.com/application/estudiante_materia\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:AsignarMateriaRequest>\r\n         <app:idEstudiante>34</app:idEstudiante>\r\n         <app:idMateria>3</app:idMateria>\r\n      </app:AsignarMateriaRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DesasignarMateria",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" \r\nxmlns:app=\"http://fasttrack.com/application/estudiante_materia\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:DesasignarMateriaRequest>\r\n         <app:idEstudiante>32</app:idEstudiante>\r\n         <app:idMateria>2</app:idMateria>\r\n      </app:DesasignarMateriaRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FiltrarMateriasEstudiante",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:app=\"http://fasttrack.com/application/estudiante_materia\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:ListarMateriasEstudianteRequest>\r\n         <app:idEstudiante>32</app:idEstudiante>\r\n      </app:ListarMateriasEstudianteRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FiltrarEstudiantesMateria",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "text/xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\r\n                  xmlns:app=\"http://fasttrack.com/application/estudiante_materia\">\r\n   <soapenv:Header/>\r\n   <soapenv:Body>\r\n      <app:ListarEstudiantesMateriaRequest>\r\n         <app:idMateria>3</app:idMateria>\r\n      </app:ListarEstudiantesMateriaRequest>\r\n   </soapenv:Body>\r\n</soapenv:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/ws",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"ws"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

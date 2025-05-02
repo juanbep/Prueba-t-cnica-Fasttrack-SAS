@@ -1,9 +1,9 @@
 import { IoMdClose } from "react-icons/io";
 import { useState, useRef, useEffect } from "react";
-import { listarMaterias } from "../../services/soap/estudiante_materia/FiltrarMateriasEstudiante";
-import { desasignarMateria } from "../../services/soap/estudiante_materia/DesasignarMateria";
+import { listarMaterias } from "../../services/soap/materias/listarMaterias";
+import { asignarMateria } from "../../services/soap/estudiante_materia/AsignarMateria";
 
-const MateriasEstudiante = ({ visible, onClose, datosEstudiante }) => {
+const MateriasEstudiante = ({ visible, onClose, datosEstudianteAsignar }) => {
   const [materias, setMaterias] = useState([]);
   const [materiaSeleccionada, setMateriaSeleccionada] = useState(null);
   // eslint-disable-next-line no-unused-vars
@@ -17,7 +17,7 @@ const MateriasEstudiante = ({ visible, onClose, datosEstudiante }) => {
       setLoading(true);
 
       const delay = new Promise((resolve) => setTimeout(resolve, 400));
-      const fetchData = listarMaterias(datosEstudiante.id);
+      const fetchData = listarMaterias();
 
       try {
         const [data] = await Promise.all([fetchData, delay]);
@@ -33,7 +33,7 @@ const MateriasEstudiante = ({ visible, onClose, datosEstudiante }) => {
       cargarDatos();
       setMateriaSeleccionada(null);
     }
-  }, [datosEstudiante, visible]);
+  }, [datosEstudianteAsignar, visible]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -57,23 +57,23 @@ const MateriasEstudiante = ({ visible, onClose, datosEstudiante }) => {
 
     const { id, codigo, nombre } = materiaSeleccionada;
 
-    console.log("Materia desasignada:", { id, codigo, nombre });
+    console.log("Materia Asignada:", { id, codigo, nombre });
 
     try {
-      const response = await desasignarMateria(datosEstudiante.id, id);
+      const response = await asignarMateria(datosEstudianteAsignar.id, id);
 
       if (response.exito === "true") {
         // actualizar la tabla
-        alert(`Materia desasignada con exito: ${response.mensaje}`);
-        setMaterias((prev) => prev.filter((m) => m.id !== id));
+        //setMaterias((prev) => prev.filter((m) => m.id !== id));
+        alert(`Materia asignada con exito: ${response.mensaje}`);
         setMateriaSeleccionada(null);
       } else {
         // mostrar mensaje al usuario
-        alert(`No se pudo desasignar la materia: ${response.mensaje}`);
+        alert(`No se pudo asignar la materia: ${response.mensaje}`);
       }
     } catch (error) {
-      console.error("Error al desasignar:", error);
-      alert("Ocurrió un error inesperado al desasignar la materia.");
+      console.error("Error al asignar:", error);
+      alert("Ocurrió un error inesperado al asignar la materia.");
     }
   };
 
@@ -88,7 +88,7 @@ const MateriasEstudiante = ({ visible, onClose, datosEstudiante }) => {
         {/* Header */}
         <div className="flex justify-between items-center border-b pb-3">
           <h3 className="text-xl font-semibold text-gray-900">
-            Materias Matriculadas
+            Materias Disponibles
           </h3>
           <button
             onClick={onClose}
@@ -151,7 +151,7 @@ const MateriasEstudiante = ({ visible, onClose, datosEstudiante }) => {
             }`}
             disabled={!materiaSeleccionada}
           >
-            Desasignar
+            Asignar
           </button>
         </div>
       </div>

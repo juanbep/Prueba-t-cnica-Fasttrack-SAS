@@ -4,6 +4,7 @@ import { eliminarEstudiante } from "../../services/soap/estudiantes/EliminarEstu
 import RegistrarEstudiante from "./RegistrarEstudiante";
 import ActualizarEstudiante from "./ActualizarEstudiante";
 import MateriasEstudiante from "./MateriasEstudiante";
+import AsignarMateria from "./AsignarMateria"
 
 const ListarEstudiantes = () => {
   const [estudiantes, setEstudiantes] = useState([]);
@@ -14,6 +15,7 @@ const ListarEstudiantes = () => {
   const [modalRVisible, setModalRVisible] = useState(false);
   const [modalAVisible, setModalAVisible] = useState(false);
   const [modalMEVisible, setModalMEVisible] = useState(false);
+  const [modalAMVisible, setModalAMVisible] = useState(false);
   const tablaRef = useRef(null);
   const botonesRef = useRef(null);
 
@@ -88,6 +90,15 @@ const ListarEstudiantes = () => {
       alert("Ocurrió un error al eliminar el estudiante.");
     }
   };
+
+  const handleAsignarMatria = () =>{
+    if (!estudianteSeleccionado) return;
+    // eslint-disable-next-line no-unused-vars
+    const { correo, ...datosEstudiante } = estudianteSeleccionado;
+    console.log("Asignar materia al estudiante:", datosEstudiante);
+    setDatosEstudiante(datosEstudiante);
+    setModalAMVisible(true);
+  }
 
   const handleActualizar = () => {
     if (!estudianteSeleccionado) return;
@@ -204,10 +215,16 @@ const ListarEstudiantes = () => {
                   : "bg-gray-500 text-white cursor-not-allowed"
               }`}
               disabled={!estudianteSeleccionado}
-              onClick={handleMateriasEstudiante}
+              onClick={handleAsignarMatria}
             >
               Asignar materia
             </button>
+            <AsignarMateria
+              visible={modalAMVisible}
+              onClose={() => setModalAMVisible(false)}
+              datosEstudianteAsignar={datosEstudiante}
+              //onSuccess={actualizarLista}
+            />
           </div>
         </div>
       </div>

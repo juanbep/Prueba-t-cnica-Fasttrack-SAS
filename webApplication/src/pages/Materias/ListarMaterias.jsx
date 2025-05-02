@@ -1,27 +1,27 @@
 import { useEffect, useRef, useState } from "react";
-import { listarEstudiantes } from "../../services/soap/estudiantes/listarEstudiantes";
-import { eliminarEstudiante } from "../../services/soap/estudiantes/EliminarEstudiante";
-import RegistrarEstudiante from "./RegistrarEstudiante";
-import ActualizarEstudiante from "./ActualizarEstudiante";
-import MateriasEstudiante from "./MateriasEstudiante";
+import { listarMaterias } from "../../services/soap/materias/listarMaterias";
+import { eliminarMateria } from "../../services/soap/materias/EliminarMateria";
+import RegistrarMateria from "./RegistrarMateria";
+import ActualizarMateria from "./ActualizarMateria";
+//import MateriasEstudiante from "./MateriasEstudiante";
 
-const ListarEstudiantes = () => {
-  const [estudiantes, setEstudiantes] = useState([]);
+const ListarMaterias = () => {
+  const [materias, setMaterias] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [estudianteSeleccionado, setEstudianteSeleccionado] = useState(null);
-  const [datosEstudiante, setDatosEstudiante] = useState(null);
+  const [materiaSeleccionada, setMateriaSeleccionada] = useState(null);
+  const [datosMateria, setDatosMateria] = useState(null);
   const [modalRVisible, setModalRVisible] = useState(false);
   const [modalAVisible, setModalAVisible] = useState(false);
-  const [modalMEVisible, setModalMEVisible] = useState(false);
+  //const [modalMEVisible, setModalMEVisible] = useState(false);
   const tablaRef = useRef(null);
   const botonesRef = useRef(null);
 
   useEffect(() => {
     const cargarDatos = async () => {
       try {
-        const data = await listarEstudiantes();
-        setEstudiantes(data);
+        const data = await listarMaterias();
+        setMaterias(data);
       } catch (err) {
         setError(err.message);
       } finally {
@@ -31,12 +31,12 @@ const ListarEstudiantes = () => {
     cargarDatos();
   }, []);
 
-  //callback para cuando se agerga un estudiante
+  //callback para cuando se agerga una materia
   const actualizarLista = async () => {
     setLoading(true);
     try {
-      const data = await listarEstudiantes();
-      setEstudiantes(data);
+      const data = await listarMaterias();
+      setMaterias(data);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -51,7 +51,7 @@ const ListarEstudiantes = () => {
       const fueraDeBotones =
         botonesRef.current && !botonesRef.current.contains(e.target);
       if (fueraDeTabla && fueraDeBotones) {
-        setEstudianteSeleccionado(null);
+        setMateriaSeleccionada(null);
       }
     };
     document.addEventListener("mousedown", handleClickFuera);
@@ -60,52 +60,45 @@ const ListarEstudiantes = () => {
     };
   }, []);
 
-  const handleSeleccion = (estudiante) => {
-    setEstudianteSeleccionado(
-      estudianteSeleccionado?.id === estudiante.id ? null : estudiante
+  const handleSeleccion = (materia) => {
+    setMateriaSeleccionada(
+      materiaSeleccionada?.id === materia.id ? null : materia
     );
-    console.log(estudianteSeleccionado);
+    console.log(materiaSeleccionada);
   };
 
   const handleEliminar = async () => {
-    if (!estudianteSeleccionado) return;
-    const id = estudianteSeleccionado.id;
-    console.log("Eliminar estudiante con ID:", id);
+    if (!materiaSeleccionada) return;
+    const id = materiaSeleccionada.id;
+    console.log("Eliminar materia con ID:", id);
     // petición soap
     try {
-      const response = await eliminarEstudiante(id);
+      const response = await eliminarMateria(id);
 
       if (response.exito === "true") {
         // actualizar la tabla
-        setEstudiantes((prev) => prev.filter((m) => m.id !== id));
-        setEstudianteSeleccionado(null);
+        setMaterias((prev) => prev.filter((m) => m.id !== id));
+        setMateriaSeleccionada(null);
       } else {
         // mostrar mensaje al usuario
-        alert(`No se pudo eliminar el estudiante: ${response.mensaje}`);
+        alert(`No se pudo eliminar la materia: ${response.mensaje}`);
       }
     } catch (error) {
       console.error("Error al eliminar:", error);
-      alert("Ocurrió un error al eliminar el estudiante.");
+      alert("Ocurrió un error al eliminar la materia.");
     }
   };
 
   const handleActualizar = () => {
-    if (!estudianteSeleccionado) return;
-    // eslint-disable-next-line no-unused-vars
-    const { correo, ...datosEstudiante } = estudianteSeleccionado;
-    console.log("Actualizar estudiante con datos:", datosEstudiante);
-    setDatosEstudiante(datosEstudiante);
+    if (!materiaSeleccionada) return;
+
+    const { ...datosMateria } = materiaSeleccionada;
+    console.log("Actualizar Materia con datos:", datosMateria);
+    setDatosMateria(datosMateria);
     setModalAVisible(true);
   };
 
-  const handleMateriasEstudiante = () => {
-    if (!estudianteSeleccionado) return;
-    // eslint-disable-next-line no-unused-vars
-    const { correo, ...datosEstudiante } = estudianteSeleccionado;
-    //console.log("Actualizar estudiante con datos:", datosParaActualizar);
-    setDatosEstudiante(datosEstudiante);
-    setModalMEVisible(true);
-  };
+  const handleMateriasEstudiante = () => {};
 
   if (loading)
     return (
@@ -129,7 +122,7 @@ const ListarEstudiantes = () => {
           </svg>
           <span className="sr-only">Loading...</span>
         </div>
-        <p className="mt-4 text-lg text-gray-700">Cargando estudiantes...</p>
+        <p className="mt-4 text-lg text-gray-700">Cargando Materias...</p>
       </div>
     );
   if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
@@ -138,7 +131,7 @@ const ListarEstudiantes = () => {
     <div className="container mx-auto p-6 text-center">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4 text-center">
         <h1 className="text-2xl font-bold text-gray-800 w-full sm:w-auto">
-          Listado de Estudiantes
+          Listado de Materias
         </h1>
         <div className="flex justify-center sm:justify-end gap-2 w-full sm:w-auto">
           <button
@@ -147,7 +140,7 @@ const ListarEstudiantes = () => {
           >
             Registrar
           </button>
-          <RegistrarEstudiante
+          <RegistrarMateria
             visible={modalRVisible}
             onClose={() => setModalRVisible(false)}
             onSuccess={actualizarLista}
@@ -155,48 +148,43 @@ const ListarEstudiantes = () => {
           <div className="flex gap-2" ref={botonesRef}>
             <button
               className={`px-4 py-2 rounded-md shadow transition duration-200 ${
-                estudianteSeleccionado
+                materiaSeleccionada
                   ? "bg-green-700 text-white hover:bg-green-800 cursor-pointer"
                   : "bg-gray-500 text-white cursor-not-allowed"
               }`}
-              disabled={!estudianteSeleccionado}
+              disabled={!materiaSeleccionada}
               onClick={handleActualizar}
             >
               Actualizar
             </button>
-            <ActualizarEstudiante
+            <ActualizarMateria
               visible={modalAVisible}
               onClose={() => setModalAVisible(false)}
-              datosParaActualizar={datosEstudiante}
+              datosParaActualizar={datosMateria}
               onSuccess={actualizarLista}
             />
             <button
               className={`px-4 py-2 rounded-md shadow transition duration-200 ${
-                estudianteSeleccionado
+                materiaSeleccionada
                   ? "bg-red-700 text-white hover:bg-red-800 cursor-pointer"
                   : "bg-gray-500 text-white cursor-not-allowed"
               }`}
-              disabled={!estudianteSeleccionado}
+              disabled={!materiaSeleccionada}
               onClick={handleEliminar}
             >
               Eliminar
             </button>
             <button
               className={`px-4 py-2 rounded-md shadow transition duration-200 ${
-                estudianteSeleccionado
+                materiaSeleccionada
                   ? "bg-gray-700 text-white hover:bg-gray-900 cursor-pointer"
                   : "bg-gray-500 text-white cursor-not-allowed"
               }`}
-              disabled={!estudianteSeleccionado}
+              disabled={!materiaSeleccionada}
               onClick={handleMateriasEstudiante}
             >
-              Materias asignadas
+              Estudiantes asignados
             </button>
-            <MateriasEstudiante
-              visible={modalMEVisible}
-              onClose={() => setModalMEVisible(false)}
-              datosEstudiante={datosEstudiante}
-            />
           </div>
         </div>
       </div>
@@ -212,37 +200,27 @@ const ListarEstudiantes = () => {
                 Nombre
               </th>
               <th className="py-3 px-4 border border-gray-300 text-center">
-                Apellido
-              </th>
-              <th className="py-3 px-4 border border-gray-300 text-center">
-                País
-              </th>
-              <th className="py-3 px-4 border border-gray-300 text-center">
-                Correo
+                Código
               </th>
             </tr>
           </thead>
           <tbody>
-            {estudiantes.map((est) => (
+            {materias.map((est) => (
               <tr
                 key={est.id}
                 onClick={() => handleSeleccion(est)}
                 className={`cursor-pointer transition text-center ${
-                  estudianteSeleccionado?.id === est.id
+                  materiaSeleccionada?.id === est.id
                     ? "bg-blue-300"
                     : "hover:bg-gray-200"
                 }`}
               >
                 <td className="py-2 px-4 border border-gray-300">{est.id}</td>
                 <td className="py-2 px-4 border border-gray-300">
-                  {est.primerNombre}
+                  {est.nombre}
                 </td>
                 <td className="py-2 px-4 border border-gray-300">
-                  {est.primerApellido}
-                </td>
-                <td className="py-2 px-4 border border-gray-300">{est.pais}</td>
-                <td className="py-2 px-4 border border-gray-300">
-                  {est.correo}
+                  {est.codigo}
                 </td>
               </tr>
             ))}
@@ -253,4 +231,4 @@ const ListarEstudiantes = () => {
   );
 };
 
-export default ListarEstudiantes;
+export default ListarMaterias;

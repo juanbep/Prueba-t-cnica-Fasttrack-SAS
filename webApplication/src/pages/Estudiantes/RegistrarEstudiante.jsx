@@ -2,8 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { IoMdClose } from "react-icons/io";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 import { registrarEstudiante } from "../../services/soap/estudiantes/RegistrarEstudiante";
+import { paises } from "../../utils/Paises";
 
-const RegistrarEstudiante = ({ visible, onClose, onSuccess  }) => {
+const RegistrarEstudiante = ({ visible, onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
     primerNombre: "",
     primerApellido: "",
@@ -39,19 +40,6 @@ const RegistrarEstudiante = ({ visible, onClose, onSuccess  }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const countries = [
-    "COLOMBIA",
-    "USA",
-    "MEXICO",
-    "ARGENTINA",
-    "CHILE",
-    "BRASIL",
-    "PERU",
-    "ECUADOR",
-    "ESPAÑA",
-    "FRANCIA",
-  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -155,7 +143,7 @@ const RegistrarEstudiante = ({ visible, onClose, onSuccess  }) => {
             {dropdownOpen && (
               <div className="absolute z-10 mt-2 w-full bg-white divide-y divide-gray-100 border border-gray-300 rounded-md shadow-lg overflow-hidden">
                 <ul className="py-2 text-sm max-h-40 overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-                  {countries.map((pais) => (
+                  {paises.map((pais) => (
                     <li key={pais}>
                       <button
                         type="button"

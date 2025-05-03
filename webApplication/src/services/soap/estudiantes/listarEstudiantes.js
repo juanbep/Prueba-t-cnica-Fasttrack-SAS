@@ -1,4 +1,4 @@
-import { SoapRequest } from "./EstudianteClient";
+import { SoapRequest } from "../../api";
 
 /**
  * Parse the XML Data

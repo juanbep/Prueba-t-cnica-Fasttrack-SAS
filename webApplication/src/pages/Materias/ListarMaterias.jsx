@@ -201,9 +201,9 @@ const ListarMaterias = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto shadow rounded-lg" ref={tablaRef}>
+      <div className="overflow-x-auto shadow rounded-lg max-h-[70vh] overflow-y-auto" ref={tablaRef}>
         <table className="min-w-full bg-white border border-gray-300 rounded-md">
-          <thead>
+          <thead className="sticky top-0 z-10">
             <tr className="bg-gray-100 text-gray-700">
               <th className="py-3 px-4 border border-gray-300 text-center">
                 Nro.

@@ -1,4 +1,4 @@
-import { SoapRequest } from "./MateriaClient";
+import { SoapRequest } from "../../api";
 
 /**
  * Parsea la respuesta XML del servicio ActualizarMateria.

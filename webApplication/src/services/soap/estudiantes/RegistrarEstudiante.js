@@ -1,4 +1,4 @@
-import { SoapRequest } from "./EstudianteClient";
+import { SoapRequest } from "../../api";
 
 /**
  * Parsea la respuesta XML del servicio RegistrarEstudiante.

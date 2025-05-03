@@ -23,7 +23,7 @@ public class EstudianteService {
 
 		//System.out.println(estudiante.getPais());
 		estudiante.setCorreo(
-				asignarCorreo(estudiante.getPrimerNombre(), estudiante.getPrimerApellido(), estudiante.getPais()));
+				asignarCorreo(estudiante.getPrimerNombre(), estudiante.getPrimerApellido(), estudiante.getPais(), false));
 
 		if (!estudianteRepository.save(estudiante)) {
 			throw new RuntimeException("Error al actualizar en BD");
@@ -39,7 +39,7 @@ public class EstudianteService {
 		estudianteUpdate.setId(id);
 
 		estudianteUpdate.setCorreo(asignarCorreo(estudianteUpdate.getPrimerNombre(),
-				estudianteUpdate.getPrimerApellido(),estudianteUpdate.getPais()));
+				estudianteUpdate.getPrimerApellido(),estudianteUpdate.getPais(), true));
 
 		if (!estudianteRepository.update(estudianteUpdate)) {
 			throw new RuntimeException("Error al actualizar en BD");
@@ -66,7 +66,7 @@ public class EstudianteService {
 		}
 	}
 
-	private String asignarCorreo(String primerNombre, String primerApellido, String pais) throws SQLException {
+	private String asignarCorreo(String primerNombre, String primerApellido, String pais, Boolean isUpdate) throws SQLException {
 
 		String correo = CorreoGenerate.generarCorreo(primerNombre, primerApellido, "fasttrack.com", pais);
 		String correoAux = CorreoGenerate.generarCorreo(primerNombre, primerApellido);
@@ -76,7 +76,7 @@ public class EstudianteService {
 		if (countDuplicateEmail == 0) {
 			return correo;
 		} else {
-			String modifiedEmail = CorreoGenerate.generarCorreo(correo, countDuplicateEmail);
+			String modifiedEmail = CorreoGenerate.generarCorreo(correo, countDuplicateEmail, isUpdate);
 			return modifiedEmail;
 		}
 	}

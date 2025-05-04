@@ -24,7 +24,7 @@ public enum PaisEnum {
 
 	 public static String obtenerCodigoISO(String nombrePais) {
 	     for (PaisEnum pais : values()) {
-	         if (pais.name().replace("_", " ").equalsIgnoreCase(nombrePais)) {
+	         if (pais.name().equalsIgnoreCase(nombrePais)) {
 	             return pais.getCodigoISO();
 	         }
 	     }

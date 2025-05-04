@@ -6,24 +6,23 @@ import { asignarMateria } from "../../services/soap/estudiante_materia/AsignarMa
 const MateriasEstudiante = ({ visible, onClose, datosEstudianteAsignar }) => {
   const [materias, setMaterias] = useState([]);
   const [materiaSeleccionada, setMateriaSeleccionada] = useState(null);
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState(null);
+  const [materiasAsignadas, setMateriasAsignadas] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
   const modalRef = useRef(null);
 
-  // Petición SOAP
   useEffect(() => {
     const cargarDatos = async () => {
       setLoading(true);
 
       const delay = new Promise((resolve) => setTimeout(resolve, 400));
-      const fetchData = listarMaterias();
+      const fetchData = listarMaterias(); // Petición SOAP
 
       try {
         const [data] = await Promise.all([fetchData, delay]);
         setMaterias(data);
-      } catch (err) {
-        setError(err.message);
+      } catch (error) {
+        alert(`${error?.message || error}`);
       } finally {
         setLoading(false);
       }
@@ -32,6 +31,8 @@ const MateriasEstudiante = ({ visible, onClose, datosEstudianteAsignar }) => {
     if (visible) {
       cargarDatos();
       setMateriaSeleccionada(null);
+    } else {
+      setMateriasAsignadas(() => []);
     }
   }, [datosEstudianteAsignar, visible]);
 
@@ -47,33 +48,30 @@ const MateriasEstudiante = ({ visible, onClose, datosEstudianteAsignar }) => {
   }, []);
 
   const handleSeleccion = (materia) => {
-    //console.log("Materia seleccionada:", materia);
     setMateriaSeleccionada(materia);
   };
 
-  const handleDesasignar = async () => {
-    //console.log("Si entro al metodo:", materiaSeleccionada);
-    if (!materiaSeleccionada) return;
+  const handleAsignarMateria = async () => {
+    if (isSubmitting || !materiaSeleccionada) return;
 
-    const { id, codigo, nombre } = materiaSeleccionada;
+    const { id } = materiaSeleccionada;
 
-    console.log("Materia Asignada:", { id, codigo, nombre });
+    setIsSubmitting(true);
 
     try {
       const response = await asignarMateria(datosEstudianteAsignar.id, id);
 
       if (response.exito === "true") {
-        // actualizar la tabla
-        //setMaterias((prev) => prev.filter((m) => m.id !== id));
-        alert(`Materia asignada con exito: ${response.mensaje}`);
+        alert(`${response.mensaje}`);
+        setMateriasAsignadas((prev) => [...prev, materiaSeleccionada]);
         setMateriaSeleccionada(null);
       } else {
-        // mostrar mensaje al usuario
-        alert(`No se pudo asignar la materia: ${response.mensaje}`);
+        alert(`${response.mensaje}`);
       }
     } catch (error) {
-      console.error("Error al asignar:", error);
-      alert("Ocurrió un error inesperado al asignar la materia.");
+      alert(`Error al asignar materia: ${error?.message || error}`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -121,10 +119,14 @@ const MateriasEstudiante = ({ visible, onClose, datosEstudianteAsignar }) => {
                       materiaSeleccionada?.id === materia.id
                         ? "bg-blue-200"
                         : ""
+                    } ${
+                      materiasAsignadas.some((m) => m.id === materia.id)
+                        ? "bg-green-200"
+                        : ""
                     }`}
                   >
                     <td className="px-4 py-2">{materia.codigo}</td>
-                    <td className="px-4 py-2">{materia.nombre}</td>
+                    <td className="px-4 py-2 ">{materia.nombre}</td>
                   </tr>
                 ))}
               </tbody>
@@ -143,15 +145,15 @@ const MateriasEstudiante = ({ visible, onClose, datosEstudianteAsignar }) => {
           </button>
           <button
             type="button"
-            onClick={handleDesasignar}
-            className={`px-4 py-2 rounded text-white ${
-              materiaSeleccionada
+            onClick={handleAsignarMateria}
+            className={`px-4 py-2 rounded text-white transition ${
+              materiaSeleccionada && !isSubmitting
                 ? "bg-blue-700 hover:bg-blue-800 cursor-pointer"
                 : "bg-blue-300 cursor-not-allowed"
             }`}
-            disabled={!materiaSeleccionada}
+            disabled={!materiaSeleccionada || isSubmitting}
           >
-            Asignar
+            {isSubmitting ? "Asignando..." : "Asignar"}
           </button>
         </div>
       </div>

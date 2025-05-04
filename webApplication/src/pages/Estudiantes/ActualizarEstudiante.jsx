@@ -29,7 +29,7 @@ const ActualizarEstudiante = ({
         id: datosParaActualizar.id || "",
         primerNombre: datosParaActualizar.primerNombre || "",
         primerApellido: datosParaActualizar.primerApellido || "",
-        pais: datosParaActualizar.pais || "",
+        pais: "",
       });
     } else if (!visible) {
       setFormData({

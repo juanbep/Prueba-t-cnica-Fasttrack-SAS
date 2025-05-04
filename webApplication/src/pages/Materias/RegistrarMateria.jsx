@@ -26,13 +26,25 @@ const RegistrarMateria = ({ visible, onClose, onSuccess }) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === " " && e.target.selectionStart === 0) {
+      e.preventDefault();
+    }
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     console.log("Materia a registrar:", formData);
 
+    const datosLimpios = {
+      ...formData,
+      noombre: formData.nombre.trim(),
+      codigo: formData.codigo.trim(),
+    };
+
     // Llamada al servicio SOAP
-    const { exito, mensaje } = await registrarMateria(formData);
+    const { exito, mensaje } = await registrarMateria(datosLimpios);
 
     if (exito) {
       console.log("Materia registrada:", mensaje);
@@ -74,6 +86,7 @@ const RegistrarMateria = ({ visible, onClose, onSuccess }) => {
               name="nombre"
               value={formData.nombre}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
               required
               className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />
@@ -87,6 +100,7 @@ const RegistrarMateria = ({ visible, onClose, onSuccess }) => {
               name="codigo"
               value={formData.codigo}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
               required
               className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />

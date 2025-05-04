@@ -6,8 +6,6 @@ import { desasignarMateria } from "../../services/soap/estudiante_materia/Desasi
 const MateriasEstudiante = ({ visible, onClose, datosEstudiante }) => {
   const [materias, setMaterias] = useState([]);
   const [materiaSeleccionada, setMateriaSeleccionada] = useState(null);
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const modalRef = useRef(null);
 
@@ -22,8 +20,8 @@ const MateriasEstudiante = ({ visible, onClose, datosEstudiante }) => {
       try {
         const [data] = await Promise.all([fetchData, delay]);
         setMaterias(data);
-      } catch (err) {
-        setError(err.message);
+      } catch (error) {
+        alert(`${error?.message || error}`);
       } finally {
         setLoading(false);
       }
@@ -47,33 +45,27 @@ const MateriasEstudiante = ({ visible, onClose, datosEstudiante }) => {
   }, []);
 
   const handleSeleccion = (materia) => {
-    //console.log("Materia seleccionada:", materia);
     setMateriaSeleccionada(materia);
   };
 
   const handleDesasignar = async () => {
-    //console.log("Si entro al metodo:", materiaSeleccionada);
     if (!materiaSeleccionada) return;
 
-    const { id, codigo, nombre } = materiaSeleccionada;
-
-    console.log("Materia desasignada:", { id, codigo, nombre });
+    const { id } = materiaSeleccionada;
 
     try {
       const response = await desasignarMateria(datosEstudiante.id, id);
 
       if (response.exito === "true") {
         // actualizar la tabla
-        alert(`Materia desasignada con exito: ${response.mensaje}`);
+        alert(`${response.mensaje}`);
         setMaterias((prev) => prev.filter((m) => m.id !== id));
         setMateriaSeleccionada(null);
       } else {
-        // mostrar mensaje al usuario
-        alert(`No se pudo desasignar la materia: ${response.mensaje}`);
+        alert(`${response.mensaje}`);
       }
     } catch (error) {
-      console.error("Error al desasignar:", error);
-      alert("Ocurrió un error inesperado al desasignar la materia.");
+      alert(`Error al desasignar materia: ${error?.message || error}`);
     }
   };
 

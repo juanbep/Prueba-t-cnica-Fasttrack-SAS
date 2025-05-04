@@ -51,6 +51,12 @@ const RegistrarEstudiante = ({ visible, onClose, onSuccess }) => {
     setDropdownOpen(false);
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === " " && e.target.selectionStart === 0) {
+      e.preventDefault();
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -60,13 +66,19 @@ const RegistrarEstudiante = ({ visible, onClose, onSuccess }) => {
     }
 
     setErrorPais("");
-    console.log("Estudiante a registrar:", formData);
+
+    const datosLimpios = {
+      ...formData,
+      primerNombre: formData.primerNombre.trim(),
+      primerApellido: formData.primerApellido.trim(),
+    };
+    //console.log("Estudiante a registrar:", formData);
 
     // Llamada al servicio SOAP
-    const { exito, mensaje } = await registrarEstudiante(formData);
+    const { exito, mensaje } = await registrarEstudiante(datosLimpios);
 
     if (exito) {
-      console.log("Estudiante registrado:", mensaje);
+      //console.log("Estudiante registrado:", mensaje);
       alert(mensaje);
       onSuccess(); //callback
       onClose();
@@ -105,6 +117,7 @@ const RegistrarEstudiante = ({ visible, onClose, onSuccess }) => {
               name="primerNombre"
               value={formData.primerNombre}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
               required
               className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />
@@ -118,6 +131,7 @@ const RegistrarEstudiante = ({ visible, onClose, onSuccess }) => {
               name="primerApellido"
               value={formData.primerApellido}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
               required
               className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />

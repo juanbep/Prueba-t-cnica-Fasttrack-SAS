@@ -6,15 +6,11 @@ Aplicación básica para una Institución Educativa, en la cual se pueda almacen
 
 ## 🛠️ Tecnologías Utilizadas
 
-Backend:
-Project: Maven
-Framework: Spring Boot 3.4.5
-Lenguaje: Java 21
-Gestor de base de datos: MySQL 
+### Backend:
+Maven + Spring Boot 3.4.5 + Java 21 + MySQL 
 
-Frontend:
-Framework/Librerias: React + Vite + Tailwind CSS + Axios + Node.js
-Lenguaje: JavaScript
+### Frontend:
+JavaScript + React + Vite + Tailwind CSS + Axios + Node.js
 
 ## 🏛️ Arquitectura del Sistema MVC
 

@@ -24,8 +24,9 @@ const ListarEstudiantes = () => {
       try {
         const data = await listarEstudiantes();
         setEstudiantes(data);
-      } catch (err) {
-        setError(err.message);
+      } catch (error) {
+        console.log("entro aqui")
+        setError(error.message);
       } finally {
         setLoading(false);
       }

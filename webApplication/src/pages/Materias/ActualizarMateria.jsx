@@ -14,9 +14,6 @@ const ActualizarMateria = ({
     codigo: "",
   });
 
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState("");
-
   useEffect(() => {
     if (visible && datosParaActualizar) {
       console.log(datosParaActualizar);
@@ -44,8 +41,14 @@ const ActualizarMateria = ({
 
     console.log("Materia a actualizar:", formData);
 
+    const datosLimpios = {
+      ...formData,
+      primerNombre: formData.primerNombre.trim(),
+      primerApellido: formData.primerApellido.trim(),
+    };
+
     // Llamada al servicio SOAP para actualiar una materia
-    const { exito, mensaje } = await actualizarMateria(formData);
+    const { exito, mensaje } = await actualizarMateria(datosLimpios);
 
     if (exito) {
       console.log("Materia actualizada:", mensaje);
@@ -53,8 +56,7 @@ const ActualizarMateria = ({
       onSuccess();
       onClose();
     } else {
-      setError(mensaje || "Error al actualizar materia");
-      alert(mensaje);
+      alert(mensaje || "Error al registrar estudiante");
     }
   };
 

@@ -6,7 +6,8 @@ import { SoapRequest } from "../../api";
 const parseObjEstudiante = (node) => ({
   id: node.getElementsByTagName("ns2:id")[0].textContent,
   primerNombre: node.getElementsByTagName("ns2:primerNombre")[0].textContent,
-  primerApellido: node.getElementsByTagName("ns2:primerApellido")[0].textContent,
+  primerApellido:
+    node.getElementsByTagName("ns2:primerApellido")[0].textContent,
   pais: node.getElementsByTagName("ns2:pais")[0].textContent,
   correo: node.getElementsByTagName("ns2:correo")[0].textContent,
 });
@@ -22,8 +23,15 @@ export const listarEstudiantes = async () => {
     </soapenv:Envelope>
   `;
 
-  const xmlDoc = await Promise.resolve(SoapRequest(soapBody));
-  const listaEstudiantes = xmlDoc.getElementsByTagName("ns2:estudiante");
-  
-  return Array.from(listaEstudiantes).map(parseObjEstudiante);
+  try {
+    const xmlDoc = await Promise.resolve(SoapRequest(soapBody));
+    const listaEstudiantes = xmlDoc.getElementsByTagName("ns2:estudiante");
+    return Array.from(listaEstudiantes).map(parseObjEstudiante);
+  } catch (error) {
+    console.error(error);
+    return {
+      exito: false,
+      mensaje: "500 (Internal Server Error)",
+    };
+  }
 };

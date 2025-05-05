@@ -84,6 +84,28 @@ public class EstudianteRepository {
 		}
 	}
 
+	public Estudiante findById(Long id) throws SQLException {
+		String query = "SELECT * FROM estudiante WHERE id_estudiante = ?";
+
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+
+			stmt.setLong(1, id);
+
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					Estudiante estudiante = new Estudiante();
+					estudiante.setPrimerNombre(rs.getString("primer_nombre"));
+					estudiante.setPrimerApellido(rs.getString("primer_apellido"));
+					estudiante.setPais(rs.getString("pais"));
+					estudiante.setCorreo(rs.getString("correo"));
+					return estudiante;
+				} else {
+					return null;
+				}
+			}
+		}
+	}
+
 	public boolean existsById(Long id) throws SQLException {
 		String query = "SELECT COUNT(*) FROM estudiante WHERE id_estudiante = ?";
 
@@ -99,19 +121,22 @@ public class EstudianteRepository {
 		}
 	}
 
-	public int duplicateEmail(String correo) throws SQLException {
-		String query = "SELECT COUNT(*) FROM estudiante WHERE correo LIKE ?";
+	public String correoDuplicado(String correoBase, String dominio, String pais) throws SQLException {
+	    String query = "SELECT correo FROM estudiante WHERE correo LIKE ? AND correo LIKE ? ORDER BY id_estudiante DESC LIMIT 1";
 
-		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+	    try (Connection conn = dataSource.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(query)) {
 
-			stmt.setString(1, correo + "%");
+	        stmt.setString(1, correoBase + "%@" + dominio + "." + pais);
+	        stmt.setString(2, "%@" + dominio + "." + pais);              
 
-			try (ResultSet rs = stmt.executeQuery()) {
-				if (rs.next()) {
-					return rs.getInt(1);
-				}
-			}
-		}
-		return 0;
+	        try (ResultSet rs = stmt.executeQuery()) {
+	            if (rs.next()) {
+	                return rs.getString("correo");
+	            }
+	        }
+	    }
+
+	    return null;
 	}
 }

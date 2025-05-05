@@ -23,7 +23,7 @@ public class EstudianteService {
 
 		//System.out.println(estudiante.getPais());
 		estudiante.setCorreo(
-				asignarCorreo(estudiante.getPrimerNombre(), estudiante.getPrimerApellido(), estudiante.getPais(), false));
+				asignarCorreo(estudiante.getPrimerNombre(), estudiante.getPrimerApellido(), estudiante.getPais().toLowerCase()));
 
 		if (!estudianteRepository.save(estudiante)) {
 			throw new RuntimeException("Error al actualizar en BD");
@@ -36,14 +36,26 @@ public class EstudianteService {
 			throw new IllegalArgumentException("Estudiante no encontrado");
 		}
 
-		estudianteUpdate.setId(id);
+		Estudiante actual = estudianteRepository.findById(id); 
+		
+		boolean datosClaveCambiaron = 
+				!actual.getPrimerNombre().equals(estudianteUpdate.getPrimerNombre()) ||
+				!actual.getPrimerApellido().equals(estudianteUpdate.getPrimerApellido()) ||
+				!actual.getPais().equals(estudianteUpdate.getPais());
+		
+		if (datosClaveCambiaron) {
+			String nuevoCorreo = asignarCorreo(estudianteUpdate.getPrimerNombre(), estudianteUpdate.getPrimerApellido(), estudianteUpdate.getPais().toLowerCase());
+			estudianteUpdate.setCorreo(nuevoCorreo);
+			estudianteUpdate.setId(id);
 
-		estudianteUpdate.setCorreo(asignarCorreo(estudianteUpdate.getPrimerNombre(),
-				estudianteUpdate.getPrimerApellido(),estudianteUpdate.getPais(), true));
-
-		if (!estudianteRepository.update(estudianteUpdate)) {
-			throw new RuntimeException("Error al actualizar en BD");
+			if (!estudianteRepository.update(estudianteUpdate)) {
+				throw new RuntimeException("Error al actualizar en BD");
+			}
+		} else {
+			throw new RuntimeException("No se actualizó ningun campo...");
 		}
+		
+		
 	}
 
 	public List<Estudiante> listarEstudiantes() throws Exception {
@@ -66,18 +78,37 @@ public class EstudianteService {
 		}
 	}
 
-	private String asignarCorreo(String primerNombre, String primerApellido, String pais, Boolean isUpdate) throws SQLException {
+	private String asignarCorreo(String primerNombre, String primerApellido, String pais) throws SQLException {
+	    String correoBase = CorreoGenerate.generarCorreo(primerNombre, primerApellido); // "primer_nombre.primer_apellido"
+	    String dominio = "fasttrack.com";
+	    String correoCompleto = correoBase + "@" + dominio + "." + pais;
 
-		String correo = CorreoGenerate.generarCorreo(primerNombre, primerApellido, "fasttrack.com", pais);
-		String correoAux = CorreoGenerate.generarCorreo(primerNombre, primerApellido);
+	    String correoDuplicado = estudianteRepository.correoDuplicado(correoBase, dominio, pais);
 
-		int countDuplicateEmail = estudianteRepository.duplicateEmail(correoAux);
+	    if (correoDuplicado == null) {
+	        return correoCompleto;
+	    }
 
-		if (countDuplicateEmail == 0) {
-			return correo;
-		} else {
-			String modifiedEmail = CorreoGenerate.generarCorreo(correo, countDuplicateEmail, isUpdate);
-			return modifiedEmail;
-		}
+	    int arrobaIndex = correoDuplicado.indexOf('@'); // índice de @
+	    String localPart = correoDuplicado.substring(0, arrobaIndex); // "extrae -> primer_nombre.primer_apellido.sufijo"
+
+	    if (localPart.equals(correoBase)) {
+	        return correoBase + ".2@" + dominio + "." + pais;
+	    } else if (localPart.startsWith(correoBase + ".")) {
+	        String sufijoStr = localPart.substring((correoBase + ".").length());
+	        try {
+	            int sufijo = Integer.parseInt(sufijoStr);
+	            return correoBase + "." + (sufijo + 1) + "@" + dominio + "." + pais;
+	        } catch (NumberFormatException e) {
+	            return correoBase + ".2@" + dominio + "." + pais;
+	        }
+	    }
+
+	    return correoBase + ".2@" + dominio + "." + pais;
 	}
+
 }
+
+
+
+

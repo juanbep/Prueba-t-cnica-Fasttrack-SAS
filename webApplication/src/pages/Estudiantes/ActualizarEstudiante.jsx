@@ -17,8 +17,7 @@ const ActualizarEstudiante = ({
     pais: "",
   });
 
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState("");
+  const [errorPais, setErrorPais] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -38,6 +37,7 @@ const ActualizarEstudiante = ({
         primerApellido: "",
         pais: "",
       });
+      setErrorPais("");
     }
   }, [visible, datosParaActualizar]);
 
@@ -59,6 +59,12 @@ const ActualizarEstudiante = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === " " && e.target.selectionStart === 0) {
+      e.preventDefault();
+    }
+  };
+
   const handleSelectPais = (pais) => {
     setFormData((prev) => ({ ...prev, pais }));
     setDropdownOpen(false);
@@ -67,19 +73,28 @@ const ActualizarEstudiante = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Estudiante a actualizar:", formData);
+    
+    if (!formData.pais) {
+      setErrorPais("NULL");
+      return;
+    }
 
+    setErrorPais("");
+
+    const datosLimpios = {
+      ...formData,
+      primerNombre: formData.primerNombre.trim(),
+      primerApellido: formData.primerApellido.trim(),
+    };
     // Llamada al servicio SOAP para actualiar un estudiante
-    const { exito, mensaje } = await actualizarEstudiante(formData);
+    const { exito, mensaje } = await actualizarEstudiante(datosLimpios);
 
     if (exito) {
-      console.log("Estudiante actualizado:", mensaje);
       alert(mensaje);
       onSuccess();
       onClose();
     } else {
-      setError(mensaje || "Error al actualizar estudiante");
-      alert(mensaje);
+      alert(mensaje || "Error al registrar estudiante");
     }
   };
 
@@ -112,6 +127,7 @@ const ActualizarEstudiante = ({
               name="primerNombre"
               value={formData.primerNombre}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
               required
               className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />
@@ -125,6 +141,7 @@ const ActualizarEstudiante = ({
               name="primerApellido"
               value={formData.primerApellido}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
               required
               className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />
@@ -138,8 +155,11 @@ const ActualizarEstudiante = ({
               type="button"
               onClick={() => {
                 setDropdownOpen(!dropdownOpen);
+                setErrorPais("");
               }}
-              className={`mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 inline-flex items-center justify-between cursor-pointer`}
+              className={`mt-1 w-full border ${
+                errorPais ? "border-red-500" : "border-gray-300"
+              } rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200 inline-flex items-center justify-between cursor-pointer`}
             >
               {formData.pais || "Seleccionar país"}
               <IoIosArrowDropdownCircle size={24} />

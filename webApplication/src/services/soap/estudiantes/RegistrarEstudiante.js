@@ -9,10 +9,9 @@ const parseRegistroResponse = (xmlDoc) => {
   if (fault) {
     const detalles = xmlDoc.getElementsByTagName("spring-ws:ValidationError");
     const errores = [];
-
     /**
      * Esta logica captura las respuestas de error enviadas por el servidor
-     * y construye un mensaje de error generico. 
+     * y construye un mensaje de error generico.
      * Se hace así porque el mensaje que devuelve el servicio no tiene una estructura legible
      * por lo que no seria adecuado mostrarlo al usuario
      * lo ideal sería crear mensajes de error personalizados en el backend para las validaciones
@@ -78,10 +77,10 @@ export const registrarEstudiante = async (estudiante) => {
     const xmlDoc = await Promise.resolve(SoapRequest(soapBody));
     return parseRegistroResponse(xmlDoc);
   } catch (error) {
-    console.error("Error al registrar estudiante:", error);
+    console.error(error);
     return {
       exito: false,
-      mensaje: "Error en la conexión con el servidor.",
+      mensaje: "500 (Internal Server Error)",
     };
   }
 };

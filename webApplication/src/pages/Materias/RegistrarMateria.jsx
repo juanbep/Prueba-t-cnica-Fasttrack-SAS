@@ -9,9 +9,6 @@ const RegistrarMateria = ({ visible, onClose, onSuccess }) => {
     codigo: "",
   });
 
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState("");
-
   useEffect(() => {
     if (!visible) {
       setFormData({
@@ -52,8 +49,7 @@ const RegistrarMateria = ({ visible, onClose, onSuccess }) => {
       onSuccess(); //callback
       onClose();
     } else {
-      setError(mensaje || "Error al registrar materia");
-      alert(mensaje);
+      alert(mensaje || "Error al registrar estudiante");
     }
   };
 

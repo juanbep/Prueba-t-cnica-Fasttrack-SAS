@@ -79,10 +79,10 @@ export const actualizarEstudiante = async (estudiante) => {
     const xmlDoc = await Promise.resolve(SoapRequest(soapBody));
     return parseRegistroResponse(xmlDoc);
   } catch (error) {
-    console.error("Error al actualizar estudiante:", error);
+    console.error(error);
     return {
       exito: false,
-      mensaje: "Error en la conexión con el servidor.",
+      mensaje: "500 (Internal Server Error)",
     };
   }
 };

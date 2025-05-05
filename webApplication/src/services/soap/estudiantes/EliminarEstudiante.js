@@ -30,10 +30,10 @@ export const eliminarEstudiante = async (idEstudiante) => {
     const xmlDoc = await Promise.resolve(SoapRequest(soapBody));
     return parseRegistroResponse(xmlDoc);
   } catch (error) {
-    console.error("Error al eliminar estudiante:", error);
+    console.error(error);
     return {
       exito: false,
-      mensaje: "Error en la conexión con el servidor.",
+      mensaje: "500 (Internal Server Error)",
     };
   }
 };

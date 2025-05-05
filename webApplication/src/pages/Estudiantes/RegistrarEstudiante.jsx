@@ -12,8 +12,6 @@ const RegistrarEstudiante = ({ visible, onClose, onSuccess }) => {
   });
 
   const [errorPais, setErrorPais] = useState("");
-  // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
 
@@ -72,19 +70,16 @@ const RegistrarEstudiante = ({ visible, onClose, onSuccess }) => {
       primerNombre: formData.primerNombre.trim(),
       primerApellido: formData.primerApellido.trim(),
     };
-    //console.log("Estudiante a registrar:", formData);
-
+    
     // Llamada al servicio SOAP
     const { exito, mensaje } = await registrarEstudiante(datosLimpios);
 
     if (exito) {
-      //console.log("Estudiante registrado:", mensaje);
       alert(mensaje);
       onSuccess(); //callback
       onClose();
     } else {
-      setError(mensaje || "Error al registrar estudiante");
-      alert(mensaje);
+      alert(mensaje || "Error al registrar estudiante");
     }
   };
 

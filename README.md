@@ -25,10 +25,10 @@ Lenguaje: JavaScript
     ├───src/
     │   ├───controllers/       # 🎮 Controladores de endpoints (SOAP)
     │   ├───models/            # 🏛️ Entidades de base de datos
-    │   ├───config/            # ⚙️ Configuración (DB, SOAP, seguridad)
+    │   ├───config/            # ⚙️ Configuración (DB, Web Services)
     │   ├───services/          # 🧠 Lógica de negocio principal
-    │   ├───repository/        # 💾 Capa de acceso a datos (DAO/Repositorios)
-    │   └───utils/             # 🛠️ Utilidades/Helpers (validadores, formateadores)
+    │   ├───repository/        # 💾 Capa de acceso a datos (Repositorios)
+    │   └───utils/             # 🛠️ Utilidades/Helpers
     │
     ├───resources/             # 📦 Recursos estáticos
     │   ├───xsd/               # 📜 Esquemas XSD para servicios SOAP

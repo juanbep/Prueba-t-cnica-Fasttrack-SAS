@@ -78,7 +78,7 @@ public class EstudianteService {
 		}
 	}
 
-	private String asignarCorreo(String primerNombre, String primerApellido, String pais) throws SQLException {
+	public String asignarCorreo(String primerNombre, String primerApellido, String pais) throws SQLException {
 	    String correoBase = CorreoGenerate.generarCorreo(primerNombre, primerApellido); // "primer_nombre.primer_apellido"
 	    String dominio = "fasttrack.com";
 	    String correoCompleto = correoBase + "@" + dominio + "." + pais;

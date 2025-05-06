@@ -68,6 +68,26 @@ public class MateriaRepository {
 		}
 	}
 
+	public Materia findById(Long id) throws SQLException {
+		String query = "SELECT * FROM materia WHERE id_materia = ?";
+
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(query)) {
+
+			stmt.setLong(1, id);
+
+			try (ResultSet rs = stmt.executeQuery()) {
+				if (rs.next()) {
+					Materia materia = new Materia();
+					materia.setNombre(rs.getString("nombre"));
+					materia.setCodigo(rs.getLong("codigo"));
+					return materia;
+				} else {
+					return null;
+				}
+			}
+		}
+	}
+	
 	public boolean deleteById(Long id) throws SQLException {
 		String query = "DELETE FROM materia WHERE id_materia = ?";
 

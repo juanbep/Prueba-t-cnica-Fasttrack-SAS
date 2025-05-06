@@ -31,16 +31,24 @@ public class MateriaService {
 	}
 
 	public void actualizarMateria(Long id, Materia materiaUpdate) throws Exception {
-		// Validar si existe
-		if (!materiaRepository.existsById(id)) {
+		Materia actual = materiaRepository.findById(id);
+
+		if (actual == null) {
 			throw new IllegalArgumentException("Materia no encontrada");
 		}
 
-		// Validaciones
-		if (materiaRepository.existsByNombre(materiaUpdate.getNombre())) {
+		boolean nombreCambio = !actual.getNombre().equals(materiaUpdate.getNombre());
+		boolean codigoCambio = !actual.getCodigo().equals(materiaUpdate.getCodigo());
+
+		if (!nombreCambio && !codigoCambio) {
+			throw new RuntimeException("No se actualizó ningún campo");
+		}
+
+		if (nombreCambio && materiaRepository.existsByNombre(materiaUpdate.getNombre())) {
 			throw new Exception("Ya existe una materia con ese nombre");
 		}
-		if (materiaRepository.existsByCodigo(materiaUpdate.getCodigo())) {
+
+		if (codigoCambio && materiaRepository.existsByCodigo(materiaUpdate.getCodigo())) {
 			throw new Exception("Ya existe una materia con ese código");
 		}
 
@@ -49,7 +57,6 @@ public class MateriaService {
 		if (!materiaRepository.update(materiaUpdate)) {
 			throw new RuntimeException("Error al actualizar en BD");
 		}
-
 	}
 
 	public List<Materia> listarMaterias() throws Exception {

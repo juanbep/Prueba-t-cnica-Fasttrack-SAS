@@ -74,7 +74,7 @@ const RegistrarEstudiante = ({ visible, onClose, onSuccess }) => {
     // Llamada al servicio SOAP
     const { exito, mensaje } = await registrarEstudiante(datosLimpios);
 
-    if (exito) {
+    if (exito === "true") {
       alert(mensaje);
       onSuccess(); //callback
       onClose();

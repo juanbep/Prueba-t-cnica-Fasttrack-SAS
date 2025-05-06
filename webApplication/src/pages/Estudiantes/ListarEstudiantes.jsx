@@ -40,6 +40,7 @@ const ListarEstudiantes = () => {
     try {
       const data = await listarEstudiantes();
       setEstudiantes(data);
+      setEstudianteSeleccionado(null);
     } catch (err) {
       setError(err.message);
     } finally {

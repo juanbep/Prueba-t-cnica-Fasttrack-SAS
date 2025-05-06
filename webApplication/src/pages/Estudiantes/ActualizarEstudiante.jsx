@@ -89,7 +89,7 @@ const ActualizarEstudiante = ({
     // Llamada al servicio SOAP para actualiar un estudiante
     const { exito, mensaje } = await actualizarEstudiante(datosLimpios);
 
-    if (exito) {
+    if (exito === "true") {
       alert(mensaje);
       onSuccess();
       onClose();

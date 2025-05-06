@@ -36,27 +36,29 @@ const ActualizarMateria = ({
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === " " && e.target.selectionStart === 0) {
+      e.preventDefault();
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Materia a actualizar:", formData);
-
     const datosLimpios = {
       ...formData,
-      primerNombre: formData.primerNombre.trim(),
-      primerApellido: formData.primerApellido.trim(),
+      nombre: formData.nombre.trim(),
+      codigo: formData.codigo.trim(),
     };
-
-    // Llamada al servicio SOAP para actualiar una materia
+    // Llamada al servicio SOAP para actualiar un estudiante
     const { exito, mensaje } = await actualizarMateria(datosLimpios);
 
-    if (exito) {
-      console.log("Materia actualizada:", mensaje);
+    if (exito === "true") {
       alert(mensaje);
       onSuccess();
       onClose();
     } else {
-      alert(mensaje || "Error al registrar estudiante");
+      alert(mensaje || "Error al actualizar materia");
     }
   };
 
@@ -89,6 +91,7 @@ const ActualizarMateria = ({
               name="nombre"
               value={formData.nombre}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
               required
               className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />
@@ -102,6 +105,7 @@ const ActualizarMateria = ({
               name="codigo"
               value={formData.codigo}
               onChange={handleChange}
+              onKeyDown={handleKeyDown}
               required
               className="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring focus:ring-blue-200"
             />

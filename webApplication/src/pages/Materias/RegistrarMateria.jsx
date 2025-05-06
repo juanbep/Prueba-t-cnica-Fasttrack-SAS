@@ -43,7 +43,7 @@ const RegistrarMateria = ({ visible, onClose, onSuccess }) => {
     // Llamada al servicio SOAP
     const { exito, mensaje } = await registrarMateria(datosLimpios);
 
-    if (exito) {
+    if (exito === "true") {
       console.log("Materia registrada:", mensaje);
       alert(mensaje);
       onSuccess(); //callback

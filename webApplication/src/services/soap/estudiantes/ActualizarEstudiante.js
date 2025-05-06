@@ -51,7 +51,7 @@ const parseRegistroResponse = (xmlDoc) => {
 
   const exito = xmlDoc.getElementsByTagName("ns2:exito")[0].textContent;
   const mensaje = xmlDoc.getElementsByTagName("ns2:mensaje")[0].textContent;
-  return { exito: exito === "true", mensaje };
+  return { exito, mensaje };
 };
 
 /**

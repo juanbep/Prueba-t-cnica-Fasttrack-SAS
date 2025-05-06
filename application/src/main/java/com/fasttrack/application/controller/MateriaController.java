@@ -77,7 +77,7 @@ public class MateriaController {
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "ActualizarMateriaRequest")
 	@ResponsePayload
-	public ActualizarMateriaResponse actualizarEstudiante(@RequestPayload ActualizarMateriaRequest request) {
+	public ActualizarMateriaResponse actualizarMateria(@RequestPayload ActualizarMateriaRequest request) {
 		ActualizarMateriaResponse response = new ActualizarMateriaResponse();
 		Materia materiaUpdate = new Materia();
 		materiaUpdate.setNombre(request.getNombre());

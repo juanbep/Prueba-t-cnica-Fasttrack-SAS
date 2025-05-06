@@ -37,6 +37,7 @@ const ListarMaterias = () => {
     try {
       const data = await listarMaterias();
       setMaterias(data);
+      setMateriaSeleccionada(null);
     } catch (err) {
       setError(err.message);
     } finally {
